@@ -1,0 +1,50 @@
+.button--title {
+    margin: 10px 10px 10px;
+    border-radius: 40px;
+}
+
+.button--nav {
+    margin: 0 10px 20px;
+    border-radius: 15px;
+}
+
+.button--submit {
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border-radius: 15px;
+}
+
+.button--remove {
+    border-radius: 40px;
+}
+
+.button--refresh {
+    font-size: 15px;
+    border: none;
+    border-radius: 15px;
+}
+
+.button:hover {
+    background: #B9B9B9;
+}
+
+.icon {
+    filter: drop-shadow(2px 4px 4px black);
+}
+
+.explore-movie-table {
+    color: black;
+    max-width: 50%;
+}
+
+.my-notie-textbox {
+    color: #FFFFFF;
+    font-family: 'Papyrus', sans-serif;
+    padding: 20px;
+}
+
+.my-notie-button {
+    color: #FFFFFF;
+    font-family: 'Papyrus', sans-serif;
+    padding: 10px;
+}
