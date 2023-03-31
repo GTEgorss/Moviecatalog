@@ -17,56 +17,38 @@ export class AppController {
   }
 
   @Get('/')
-  index(@Res() res: Response) {
-    return res.render('main', {
-      layout: 'index',
-      loggedIn: loggedIn,
-      username: username,
-    });
+  @Render('index')
+  index() {
+    return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/lists')
-  lists(@Res() res: Response) {
-    return res.render('main', {
-      layout: 'lists',
-      loggedIn: loggedIn,
-      username: username,
-    });
+  @Render('lists')
+  lists() {
+    return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/favorites')
-  favorites(@Res() res: Response) {
-    return res.render('main', {
-      layout: 'favorites',
-      loggedIn: loggedIn,
-      username: username,
-    });
+  @Render('favorites')
+  favorites() {
+    return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/explore')
-  explore(@Res() res: Response) {
-    return res.render('main', {
-      layout: 'explore',
-      loggedIn: loggedIn,
-      username: username,
-    });
+  @Render('explore')
+  explore() {
+    return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/watchlater')
-  watchlater(@Res() res: Response) {
-    return res.render('main', {
-      layout: 'watchlater',
-      loggedIn: loggedIn,
-      username: username,
-    });
+  @Render('watchlater')
+  watchlater() {
+    return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/style')
+  @Render('style')
   style(@Res() res: Response) {
-    return res.render('main', {
-      layout: 'style',
-      loggedIn: false,
-      username: username,
-    });
+    return { loggedIn: false, username: username };
   }
 }
