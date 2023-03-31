@@ -35,7 +35,7 @@ Visuals:
 -------
 #### Home page:
 
-![img_1.png](frontend/Content/img.png)
+![img_1.png](public/Content/img.png)
 
 Contacts:
 --------

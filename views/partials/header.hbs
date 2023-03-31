@@ -1,0 +1,55 @@
+<header>
+  <div class="layout-title">
+    <div class="layout-title--name">
+      <a href="/">
+        <img class="icon" src="Content/favicon.ico" alt="Logo" width="96px" height="96px">
+      </a>
+      <h1 class="title--h1">Moviecatalog</h1>
+    </div>
+
+    <nav class="layout-title--buttons">
+      <a class="button button--title" href="#">eng/rus</a>
+      <a class="button button--title" href="#">sign up</a>
+      <a class="button button--title" href="#">log in</a>
+    </nav>
+
+    <nav class="layout-nav">
+      {{#if index}}
+        <a class="button button--nav is-button-selected" href="/">Home</a>
+      {{else}}
+        <a class="button button--nav" href="/">Home</a>
+      {{/if}}
+
+      {{#if lists}}
+        <a class="button button--nav is-button-selected" href="lists">Lists</a>
+      {{else}}
+        <a class="button button--nav" href="lists">Lists</a>
+      {{/if}}
+
+      {{#if favorites}}
+        <a class="button button--nav is-button-selected" href="favorites">Favorites</a>
+      {{else}}
+        <a class="button button--nav" href="favorites">Favorites</a>
+      {{/if}}
+
+      {{#if explore}}
+        <a class="button button--nav is-button-selected" href="explore">Explore</a>
+      {{else}}
+        <a class="button button--nav" href="explore">Explore</a>
+      {{/if}}
+
+      {{#if watchlater}}
+        <a class="button button--nav is-button-selected" href="watchlater">Watch Later</a>
+      {{else}}
+        <a class="button button--nav" href="watchlater">Watch Later</a>
+      {{/if}}
+
+      {{#if style}}
+        <a class="button button--nav is-button-selected" href="style">Style</a>
+      {{else}}
+        <a class="button button--nav" href="style">Style</a>
+      {{/if}}
+    </nav>
+
+  </div>
+</header>
