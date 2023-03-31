@@ -9,13 +9,12 @@ let loadTime = -1;
  * @function
  */
 (() => {
-    const start = new Date().getTime();
+  const start = new Date().getTime();
 
-    document.addEventListener('DOMContentLoaded', () => {
-        window.addEventListener('load', () => {
-            loadTime = (new Date().getTime() - start) / 1000;
-            document.getElementById('load-time').innerHTML = loadTime.toString();
-        })
-
+  document.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('load', () => {
+      loadTime = (new Date().getTime() - start) / 1000;
+      document.getElementById('load-time').innerHTML = loadTime.toString();
     });
+  });
 })();

@@ -1,8 +1,13 @@
-import { Controller, Get, Render, Res } from '@nestjs/common';
+import { Controller, Get, Render, Res, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response } from 'express';
+import { MyInterceptor } from './interceptor';
+
+const loggedIn = true;
+const username = 'GTEgorss';
 
 @Controller()
+@UseInterceptors(MyInterceptor)
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -15,12 +20,8 @@ export class AppController {
   index(@Res() res: Response) {
     return res.render('main', {
       layout: 'index',
-      index: true,
-      lists: false,
-      favorites: false,
-      explore: false,
-      watchlater: false,
-      style: false,
+      loggedIn: loggedIn,
+      username: username,
     });
   }
 
@@ -28,12 +29,8 @@ export class AppController {
   lists(@Res() res: Response) {
     return res.render('main', {
       layout: 'lists',
-      index: false,
-      lists: true,
-      favorites: false,
-      explore: false,
-      watchlater: false,
-      style: false,
+      loggedIn: loggedIn,
+      username: username,
     });
   }
 
@@ -41,12 +38,8 @@ export class AppController {
   favorites(@Res() res: Response) {
     return res.render('main', {
       layout: 'favorites',
-      index: false,
-      lists: false,
-      favorites: true,
-      explore: false,
-      watchlater: false,
-      style: false,
+      loggedIn: loggedIn,
+      username: username,
     });
   }
 
@@ -54,12 +47,8 @@ export class AppController {
   explore(@Res() res: Response) {
     return res.render('main', {
       layout: 'explore',
-      index: false,
-      lists: false,
-      favorites: false,
-      explore: true,
-      watchlater: false,
-      style: false,
+      loggedIn: loggedIn,
+      username: username,
     });
   }
 
@@ -67,12 +56,8 @@ export class AppController {
   watchlater(@Res() res: Response) {
     return res.render('main', {
       layout: 'watchlater',
-      index: false,
-      lists: false,
-      favorites: false,
-      explore: false,
-      watchlater: true,
-      style: false,
+      loggedIn: loggedIn,
+      username: username,
     });
   }
 
@@ -80,12 +65,8 @@ export class AppController {
   style(@Res() res: Response) {
     return res.render('main', {
       layout: 'style',
-      index: false,
-      lists: false,
-      favorites: false,
-      explore: false,
-      watchlater: false,
-      style: true,
+      loggedIn: false,
+      username: username,
     });
   }
 }
