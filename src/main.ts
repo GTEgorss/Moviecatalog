@@ -13,8 +13,9 @@ async function bootstrap() {
 
   hbs.registerPartials(join(__dirname, '..', 'views/partials'));
 
-  console.log('Port: ' + (process.env.PORT || 6974));
-  await app.listen(process.env.PORT || 6974);
+  const port = process.env.PORT || 6974;
+  console.log(`Port: ${port}`);
+  await app.listen(port);
 }
 
 bootstrap();

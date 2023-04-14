@@ -1,13 +1,12 @@
-import { Controller, Get, Render, Res, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Render, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Response } from 'express';
-import { MyInterceptor } from './interceptor';
+import { ResponseTimeInterceptor } from './interceptor';
 
 const loggedIn = true;
 const username = 'GTEgorss';
 
 @Controller()
-@UseInterceptors(MyInterceptor)
+@UseInterceptors(ResponseTimeInterceptor)
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -48,7 +47,7 @@ export class AppController {
 
   @Get('/style')
   @Render('style')
-  style(@Res() res: Response) {
+  style() {
     return { loggedIn: false, username: username };
   }
 }
