@@ -7,7 +7,7 @@ export class MovieService {
     throw new NotImplementedException();
   }
 
-  getMovieByTitle(title: string) {
+  getMoviesByTitle(title: string) {
     throw new NotImplementedException();
   }
 

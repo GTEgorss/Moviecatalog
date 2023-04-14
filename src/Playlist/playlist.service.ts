@@ -7,7 +7,7 @@ export class PlaylistService {
     throw new NotImplementedException();
   }
 
-  getPlaylistByTitle(title: string) {
+  getPlaylistsByTitle(title: string) {
     throw new NotImplementedException();
   }
 
