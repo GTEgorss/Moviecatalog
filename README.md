@@ -37,6 +37,69 @@ Visuals:
 
 ![img_1.png](public/Content/img.png)
 
+
+Database:
+-------
+![myDB.png](./myDB.png)
+
+### User
+- id
+- username – unique
+- password
+- full name
+- email – unique
+- role – type Role (below)
+
+#### Role (enumeration)
+- ADMIN
+- USER
+
+### Movie
+- id
+- title
+- year – year of release
+- country – country of production
+- genre – list of genres
+- director
+- cast
+- duration – in minutes
+- age – age restriction
+- seasons – number of seasons (nullable)
+- description – string
+- rating – float
+
+### Playlist
+- id
+- title
+- private – boolean
+- userId – owner of the playlist
+
+### Review
+- id
+- rating – float
+- body – string
+- date – DateTime of creation
+- userId – author of the review
+- movieId – movie which the review was written to
+
+### WatchLaterMovie
+- id
+- watchLaterStatus – type WatchLaterStatus (below)
+- movieId – movie to watch later
+- userId – owner of the object
+
+#### WatchLaterStatus
+- WATCHED
+- NOT_WATCHED
+
+### _MovieToUser (favorites)
+User has favorites. It is an array of movies. 
+This many-to-many relation is responsible for this.
+
+### _MovieToPlaylists (many-to-many relation)
+This many-to-many relations is responsible for movies 
+occurrences in multiple playlists.
+
 Contacts:
 --------
 [My telegram](https://t.me/GTEgorss)

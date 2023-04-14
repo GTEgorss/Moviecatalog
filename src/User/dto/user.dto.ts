@@ -3,4 +3,5 @@ export class UserDto {
   password: string;
   fullName: string;
   email: string;
+  favorites: number[]; // movie IDs, TODO better way?
 }

@@ -5,4 +5,5 @@ interface IUser {
   fullName: string;
   email: string;
   role: Role;
+  favorites: number[]; // movie IDs, TODO better way?
 }
