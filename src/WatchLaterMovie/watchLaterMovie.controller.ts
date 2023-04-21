@@ -3,11 +3,9 @@ import {
   Controller,
   Delete,
   Get,
-  NotImplementedException,
   Param,
   Patch,
   Post,
-  Query,
 } from '@nestjs/common';
 import { WatchLaterMovieService } from './watchLaterMovie.service';
 import { WatchLaterMovieDto } from './dto/watchLaterMovie.dto';
