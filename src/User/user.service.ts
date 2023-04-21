@@ -4,12 +4,12 @@ import prisma from '../main';
 import { Role } from '@prisma/client';
 import { UserValidator } from './user.validator';
 
-const validator = new UserValidator();
+const userValidator = new UserValidator();
 
 @Injectable()
 export class UserService {
   async createUser(dto: UserDto): Promise<UserDto> {
-    await validator.validate(dto);
+    await userValidator.validate(dto);
 
     const user = await prisma.user.create({
       data: {
@@ -100,5 +100,35 @@ export class UserService {
     } catch (e) {
       throw new NotFoundException();
     }
+  }
+
+  async addFavorite(userId: number, movieId: number) {
+    await userValidator.validateUser(userId);
+    await userValidator.validateMovie(movieId);
+    await userValidator.validateFavorite(userId, movieId);
+
+    const favorite = prisma.favorite.create({
+      data: { userId: userId, movieId: movieId },
+    });
+
+    return favorite;
+  }
+
+  async getFavorites(userId: number) {
+    await userValidator.validateUser(userId);
+
+    const favorites = prisma.favorite.findMany({ where: { userId: userId } });
+    return favorites;
+  }
+
+  async removeFavorite(userId: number, movieId: number) {
+    await userValidator.validateUser(userId);
+    await userValidator.validateMovie(movieId);
+
+    const favorite = prisma.favorite.deleteMany({
+      where: { userId: userId, movieId: movieId },
+    });
+
+    return favorite;
   }
 }

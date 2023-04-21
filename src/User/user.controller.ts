@@ -10,6 +10,7 @@ import {
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { FavoriteDto } from './dto/favorite.dto';
 
 @ApiTags('User')
 @Controller('/user')
@@ -83,5 +84,40 @@ export class UserController {
     @Param('id', ParseIntPipe) id: number,
   ): Promise<UserDto> {
     return this.userService.deleteUserById(id);
+  }
+
+  @ApiOperation({ summary: 'add movie to favorites' })
+  @ApiResponse({ status: 200, description: 'Movie added successfully' })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @Post('favorites/:userId/:movieId')
+  async addFavorite(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Param('movieId', ParseIntPipe) movieId: number,
+  ): Promise<FavoriteDto> {
+    return this.userService.addFavorite(userId, movieId);
+  }
+
+  @ApiOperation({ summary: 'get favorites' })
+  @ApiResponse({ status: 200, description: 'Movie removed successfully' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  @Get('favorites/:userId')
+  async getFavorites(
+    @Param('userId', ParseIntPipe) userId: number,
+  ): Promise<FavoriteDto[]> {
+    return this.userService.getFavorites(userId);
+  }
+
+  @ApiOperation({ summary: 'remove movie to favorites' })
+  @ApiResponse({ status: 200, description: 'Movie removed successfully' })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @Delete('favorites/:userId/:movieId')
+  async removeFavorite(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Param('movieId', ParseIntPipe) movieId: number,
+  ) {
+    return this.userService.removeFavorite(userId, movieId);
   }
 }

@@ -10,7 +10,7 @@ export class MovieValidator {
       dto.age !== 16 &&
       dto.age !== 18
     ) {
-      throw new BadRequestException('Bad request. Wrong age restriction');
+      throw new BadRequestException('Wrong age restriction');
     }
   }
 }
