@@ -4,26 +4,26 @@ import { PlaylistDto } from './dto/playlist.dto';
 @Injectable()
 export class PlaylistService {
   createPlaylist(dto: PlaylistDto) {
-    throw new NotImplementedException();
+    return null;
   }
 
   getPlaylistsByTitle(title: string) {
-    throw new NotImplementedException();
+    return null;
   }
 
   getPlaylistById(id: number) {
-    throw new NotImplementedException();
+    return null;
   }
 
-  deletePlaylistByTitle(title: string) {
-    throw new NotImplementedException();
+  deletePlaylistById(id: number) {
+    return null;
   }
 
   addMovieToPlaylist(playlistId: number, movieId: number) {
-    throw new NotImplementedException();
+    return null;
   }
 
   removeMovieFromPlaylist(playlistId: number, movieId: number) {
-    throw new NotImplementedException();
+    return null;
   }
 }

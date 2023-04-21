@@ -1,3 +1,6 @@
+import { Role } from '../enums/role.enum';
+import { IUser } from '../user.interface';
+
 export class User implements IUser {
   id: number;
   username: string;
@@ -5,5 +8,6 @@ export class User implements IUser {
   fullName: string;
   email: string;
   role: Role;
-  favorites: number[]; // movie IDs, TODO better way?
+  favoriteIds: number[]; // movie IDs
+  // favoriteNames: string[]; // TODO decide later
 }

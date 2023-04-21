@@ -1,5 +1,6 @@
 import { Injectable, NotImplementedException } from '@nestjs/common';
 import { WatchLaterMovieDto } from './dto/watchLaterMovie.dto';
+import { WatchLaterStatus } from './enums/watchLaterMovie.enum';
 
 @Injectable()
 export class WatchLaterMovieService {

@@ -1,10 +1,12 @@
 import { Controller, Get, Render, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ResponseTimeInterceptor } from './interceptor';
+import { ApiExcludeController } from '@nestjs/swagger';
 
 const loggedIn = true;
 const username = 'GTEgorss';
 
+@ApiExcludeController()
 @Controller()
 @UseInterceptors(ResponseTimeInterceptor)
 export class AppController {

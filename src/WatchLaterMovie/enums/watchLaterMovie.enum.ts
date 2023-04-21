@@ -1,4 +1,4 @@
-enum WatchLaterStatus {
-  WATCHED,
-  NOT_WATCHED,
+export enum WatchLaterStatus {
+  WATCHED = 'WATCHED',
+  NOT_WATCHED = 'NOT_WATCHED',
 }

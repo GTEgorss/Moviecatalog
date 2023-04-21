@@ -1,4 +1,4 @@
-interface IMovie {
+export interface IMovie {
   id: number;
   title: string;
   year: number;
@@ -8,8 +8,9 @@ interface IMovie {
   cast: string; //TODO diff type
   duration: number; //minutes
   age: number; // "age+"
+  seasons: number;
   description: string;
 
   rating: number;
-  reviewIds: number[]; //TODO better way?
+  reviewIds: number[];
 }

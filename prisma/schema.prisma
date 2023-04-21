@@ -20,7 +20,7 @@ model User {
 
   playlists      Playlist[]
   watchLaterList WatchLaterMovie[]
-  favorites      Movie[]
+  favorites      Favorite[]
   reviews        Review[]
 }
 
@@ -32,7 +32,7 @@ model Playlist {
   User   User @relation(fields: [userId], references: [id])
   userId Int
 
-  movies Movie[]
+  moviesToPlaylists MovieToPlaylist[]
 }
 
 model Movie {
@@ -51,9 +51,27 @@ model Movie {
   rating  Float?
   reviews Review[]
 
-  playlists        Playlist[]
-  watchLaterMovies WatchLaterMovie[]
-  usersFavorites   User[]
+  moviesToPlaylists MovieToPlaylist[]
+  watchLaterMovies  WatchLaterMovie[]
+  favorites         Favorite[]
+}
+
+model MovieToPlaylist {
+  movie      Movie    @relation(fields: [movieId], references: [id])
+  movieId    Int
+
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  playlistId Int
+
+  @@id([movieId, playlistId])
+}
+
+model Favorite {
+  id      Int   @id @default(autoincrement())
+  user    User  @relation(fields: [userId], references: [id])
+  movie   Movie @relation(fields: [movieId], references: [id])
+  userId  Int
+  movieId Int
 }
 
 model WatchLaterMovie {

@@ -1,7 +1,7 @@
-interface IPlaylist {
+export interface IPlaylist {
   id: number;
   title: string;
   private: boolean;
   userId: number;
-  movieIds: number[]; //TODO better way?
+  movieIds: number[];
 }

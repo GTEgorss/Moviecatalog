@@ -4,7 +4,12 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import * as hbs from 'hbs';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as process from 'process';
+import { PrismaClient } from '@prisma/client';
+import { ValidationPipe } from '@nestjs/common';
 
+const prisma = new PrismaClient();
+export default prisma;
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -12,6 +17,8 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
   hbs.registerPartials(join(__dirname, '..', 'views/partials'));
+
+  app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
     .setTitle('moviecatalog')
@@ -32,4 +39,12 @@ async function bootstrap() {
   await app.listen(port);
 }
 
-bootstrap();
+bootstrap()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

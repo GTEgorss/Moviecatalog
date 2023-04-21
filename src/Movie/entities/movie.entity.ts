@@ -1,3 +1,5 @@
+import { IMovie } from '../movie.interface';
+
 export class Movie implements IMovie {
   id: number;
   title: string;
@@ -8,8 +10,9 @@ export class Movie implements IMovie {
   cast: string; //TODO diff type
   duration: number; //minutes
   age: number; // "age+"
+  seasons: number;
   description: string;
 
   rating: number;
-  reviewIds: number[]; //TODO better way?
+  reviewIds: number[];
 }
