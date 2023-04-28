@@ -44,7 +44,15 @@
     gap: 20px;
 }
 
-.layout-movie-name {
+.layout-text-input-box-login {
+    width: 120px;
+}
+
+.layout-text-input-box-signup {
+    width: 200px;
+}
+
+.layout-text-input {
     display: flex;
     justify-content: flex-start;
     align-items: center;

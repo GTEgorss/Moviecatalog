@@ -12,8 +12,8 @@
       {{#if loggedIn}}
         <a class="button button--title" href="#">logged in as {{username}}</a>
       {{else}}
-        <a class="button button--title" href="#">log in</a>
-        <a class="button button--title" href="#">sign up</a>
+        <a id="login" class="button button--title" href="login">log in</a>
+        <a id="signup" class="button button--title" href="signup">sign up</a>
       {{/if}}
     </nav>
 
@@ -27,6 +27,7 @@
     </nav>
 
     <script src="JS/CurrentPage.js"></script>
+    <script src="JS/GlobalAddress.js"></script>
 
   </div>
 </header>

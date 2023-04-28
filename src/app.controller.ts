@@ -11,12 +11,6 @@ const username = 'GTEgorss';
 @UseInterceptors(ResponseTimeInterceptor)
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
-  @Get('/hello')
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
   @Get('/')
   @Render('index')
   index() {
@@ -51,5 +45,17 @@ export class AppController {
   @Render('style')
   style() {
     return { loggedIn: false, username: username };
+  }
+
+  @Get('/signup')
+  @Render('signup')
+  signup() {
+    return { loggedIn: loggedIn, username: username };
+  }
+
+  @Get('/login')
+  @Render('login')
+  login() {
+    return { loggedIn: loggedIn, username: username };
   }
 }

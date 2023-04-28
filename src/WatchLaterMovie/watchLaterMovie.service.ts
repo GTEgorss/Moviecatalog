@@ -35,7 +35,7 @@ export class WatchLaterMovieService {
 
   async getWatchLaterMoviesByUserId(id: number) {
     const watchLaterMovies = await prisma.watchLaterMovie.findMany({
-      where: { userId: id },
+      where: { userId: Number(id) },
     });
     return watchLaterMovies;
   }

@@ -64,7 +64,7 @@ export class WatchLaterMovieController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
-  @Get('id/:id')
+  @Get('userid/:id')
   getWatchLaterMovieByUserId(
     @Param('id') id: number,
   ): Promise<WatchLaterMovieDto[]> {

@@ -51,6 +51,8 @@ model Movie {
   rating  Float?
   reviews Review[]
 
+  @@index([title], type: Hash)
+
   moviesToPlaylists MovieToPlaylist[]
   watchLaterMovies  WatchLaterMovie[]
   favorites         Favorite[]

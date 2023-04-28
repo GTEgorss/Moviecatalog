@@ -9,6 +9,7 @@
 }
 
 .button--submit {
+    width: 100px;
     padding-top: 13px;
     padding-bottom: 13px;
     border-radius: 15px;

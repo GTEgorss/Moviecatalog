@@ -91,7 +91,7 @@ main h2 {
     margin: 0;
 }
 
-.watch-later--subtitle {
+.text-input--subtitle {
     font-size: 20px;
     margin-right: 10px;
     margin-top: 0;
@@ -106,6 +106,8 @@ main h2 {
     border: none;
     border-radius: 15px;
 }
+
+
 
 .movie-filter--checkbox {
     /*appearance: none;*/

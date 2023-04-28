@@ -82,9 +82,8 @@ function addToListFromInput() {
 
       movies.push(new Movie(movie_name));
 
-      SaveMoviesLocalStorage();
-
-      console.log(localStorage.getItem('movies'));
+      // SaveMoviesLocalStorage();
+      // console.log(localStorage.getItem('movies'));
     }
   }
 }
@@ -111,9 +110,9 @@ function addToList(movie_name, watched) {
   check.setAttribute('class', 'movie-list--checkbox');
   check.addEventListener('change', (event) => {
     if (event.currentTarget.checked) {
-      setWatched(event.currentTarget, true);
+      setWatchLaterStatus(event.currentTarget, true);
     } else {
-      setWatched(event.currentTarget, false);
+      setWatchLaterStatus(event.currentTarget, false);
     }
   });
   check_td.appendChild(check);
@@ -135,7 +134,7 @@ function addToList(movie_name, watched) {
   const remove = document.createElement('div');
   remove.textContent = 'Remove';
   remove.setAttribute('class', 'button button--remove');
-  remove.setAttribute('onclick', 'removeFromList(this)');
+  remove.setAttribute('onclick', 'removeWatchLaterMovie(this)');
   remove_td.appendChild(remove);
 
   movie.appendChild(check_td);
@@ -170,9 +169,8 @@ function setWatched(node, watched) {
     ).watched = false;
   }
 
-  SaveMoviesLocalStorage();
-
-  console.log(localStorage.getItem('movies'));
+  // SaveMoviesLocalStorage();
+  // console.log(localStorage.getItem('movies'));
 }
 
 /**
@@ -189,9 +187,8 @@ function removeFromList(node) {
 
   --movieCount;
 
-  SaveMoviesLocalStorage();
-
-  console.log(localStorage.getItem('movies'));
+  // SaveMoviesLocalStorage();
+  // console.log(localStorage.getItem('movies'));
 }
 
 /**
@@ -284,6 +281,4 @@ window.onload = () => {
       }
     }),
   );
-
-  initializeListFromLocalStorage();
 };
