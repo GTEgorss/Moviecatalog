@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  NotImplementedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ReviewDto } from './dto/review.dto';
 import { ReviewValidator } from './review.validator';
 import prisma from '../main';
@@ -13,7 +9,7 @@ const reviewValidator = new ReviewValidator();
 export class ReviewService {
   async createReview(dto: ReviewDto) {
     await reviewValidator.validate(dto);
-    const review = prisma.review.create({
+    const review = await prisma.review.create({
       data: {
         rating: dto.rating,
         body: dto.body,
@@ -26,20 +22,25 @@ export class ReviewService {
   }
 
   async getReviewById(id: number) {
-    const review = prisma.review.findUnique({ where: { id: id } });
+    const review = await prisma.review.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
 
     if (review == null) {
-      throw new NotFoundException('Review not found');
+      throw new NotFoundException(`There is no review with id:${id}`);
     }
-
     return review;
   }
 
   async deleteReviewById(id: number) {
-    const review = prisma.review.delete({ where: { id: id } });
+    await reviewValidator.validateReview(id);
+
+    const review = await prisma.review.delete({ where: { id: id } });
 
     if (review == null) {
-      throw new NotFoundException('Review not found');
+      throw new NotFoundException(`There is no review id:${id}`);
     }
 
     return review;
@@ -48,14 +49,14 @@ export class ReviewService {
   async getReviewsByUserId(id: number) {
     await reviewValidator.validateUser(id);
 
-    const reviews = prisma.review.findMany({ where: { userId: id } });
+    const reviews = await prisma.review.findMany({ where: { userId: id } });
     return reviews;
   }
 
   async getReviewsByMovieId(id: number) {
     await reviewValidator.validateMovie(id);
 
-    const reviews = prisma.review.findMany({ where: { movieId: id } });
+    const reviews = await prisma.review.findMany({ where: { movieId: id } });
     return reviews;
   }
 }

@@ -9,7 +9,12 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  getSchemaPath,
+} from '@nestjs/swagger';
 import { FavoriteDto } from './dto/favorite.dto';
 
 @ApiTags('User')
@@ -18,7 +23,11 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiOperation({ summary: 'create user' })
-  @ApiResponse({ status: 201, description: 'User created successfully' })
+  @ApiResponse({
+    status: 201,
+    description: 'User created successfully',
+    schema: { $ref: getSchemaPath(UserDto) },
+  })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @Post('create')
@@ -27,7 +36,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'get user by username' })
-  @ApiResponse({ status: 200, description: 'User provided successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'User provided successfully',
+    type: UserDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'User not found' })
   @Get('username/:username')
@@ -38,7 +51,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'get user by email' })
-  @ApiResponse({ status: 200, description: 'User provided successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'User provided successfully',
+    type: UserDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'User not found' })
   @Get('email/:email')
@@ -47,7 +64,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'get user by id' })
-  @ApiResponse({ status: 200, description: 'User provided successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'User provided successfully',
+    type: UserDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'User not found' })
   @Get('id/:id')
@@ -56,7 +77,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'delete user by username' })
-  @ApiResponse({ status: 200, description: 'User deleted successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'User deleted successfully',
+    type: UserDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'User not found' })
   @Delete('username/:username')
@@ -67,7 +92,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'delete user by email' })
-  @ApiResponse({ status: 200, description: 'User deleted successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'User deleted successfully',
+    type: UserDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'User not found' })
   @Delete('email/:email')
@@ -76,7 +105,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'delete user by id' })
-  @ApiResponse({ status: 200, description: 'User deleted successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'User deleted successfully',
+    type: UserDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'User not found' })
   @Delete('id/:id')
@@ -87,7 +120,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'add movie to favorites' })
-  @ApiResponse({ status: 200, description: 'Movie added successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Movie added successfully',
+    schema: { $ref: getSchemaPath(FavoriteDto) },
+  })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @Post('favorites/:userId/:movieId')
@@ -99,7 +136,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'get favorites' })
-  @ApiResponse({ status: 200, description: 'Movie removed successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Movie removed successfully',
+    type: FavoriteDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @Get('favorites/:userId')
@@ -110,14 +151,18 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'remove movie to favorites' })
-  @ApiResponse({ status: 200, description: 'Movie removed successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Movie removed successfully',
+    type: FavoriteDto,
+  })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @Delete('favorites/:userId/:movieId')
   async removeFavorite(
     @Param('userId', ParseIntPipe) userId: number,
     @Param('movieId', ParseIntPipe) movieId: number,
-  ) {
+  ): Promise<FavoriteDto> {
     return this.userService.removeFavorite(userId, movieId);
   }
 }

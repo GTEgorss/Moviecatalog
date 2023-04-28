@@ -18,7 +18,7 @@ export class PlaylistValidator {
       ) != 0
     ) {
       throw new BadRequestException(
-        'You already have playlist with the same title',
+        `There is already a movie with title:${dto.title}`,
       );
     }
   }
@@ -31,13 +31,11 @@ export class PlaylistValidator {
         }),
       ) == 0
     ) {
-      throw new NotFoundException('There is no such playlist');
+      throw new NotFoundException(`There is no playlist id:${playlistId}`);
     }
   }
 
-  async validatePlaylistMovie(playlistId: number, movieId: number) {
-    await this.validatePlaylist(playlistId);
-
+  async validateMovie(movieId: number) {
     if (
       Number(
         await prisma.movie.count({
@@ -45,7 +43,35 @@ export class PlaylistValidator {
         }),
       ) == 0
     ) {
-      throw new NotFoundException('There is no such movie');
+      throw new NotFoundException(`There is no movie id:${movieId}`);
+    }
+  }
+
+  async validateMovieInPlaylist(movieId: number, playlistId: number) {
+    if (
+      Number(
+        await prisma.movieToPlaylist.count({
+          where: { movieId: movieId, playlistId: playlistId },
+        }),
+      ) > 0
+    ) {
+      throw new BadRequestException(
+        `Movie id:${movieId} is already in playlist id:${playlistId}`,
+      );
+    }
+  }
+
+  async validateMovieNotInPlaylist(movieId: number, playlistId: number) {
+    if (
+      Number(
+        await prisma.movieToPlaylist.count({
+          where: { movieId: movieId, playlistId: playlistId },
+        }),
+      ) == 0
+    ) {
+      throw new NotFoundException(
+        `There is no movie id:${movieId} in playlist id:${playlistId}`,
+      );
     }
   }
 }

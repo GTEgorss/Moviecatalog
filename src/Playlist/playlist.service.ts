@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PlaylistDto } from './dto/playlist.dto';
 import prisma from '../main';
 import { PlaylistValidator } from './playlist.validator';
-import { Movie } from '../Movie/entities/movie.entity';
 
 const playlistValidator = new PlaylistValidator();
 
@@ -10,7 +9,7 @@ const playlistValidator = new PlaylistValidator();
 export class PlaylistService {
   async createPlaylist(dto: PlaylistDto) {
     await playlistValidator.validate(dto);
-    const playlist = prisma.playlist.create({
+    const playlist = await prisma.playlist.create({
       data: {
         title: dto.title,
         private: Boolean(dto.private),
@@ -21,32 +20,35 @@ export class PlaylistService {
   }
 
   async getPlaylistsByTitle(title: string) {
-    const playlists = prisma.playlist.findMany({ where: { title: title } });
+    const playlists = await prisma.playlist.findMany({
+      where: { title: title },
+    });
     return playlists;
   }
 
   async getPlaylistById(id: number) {
-    const playlist = prisma.playlist.findUnique({ where: { id: id } });
+    const playlist = await prisma.playlist.findUnique({ where: { id: id } });
 
     if (playlist == null) {
-      throw new NotFoundException('Playlist not found');
+      throw new NotFoundException(`There is no playlist id:${id}`);
     }
     return playlist;
   }
 
   async deletePlaylistById(id: number) {
-    const playlist = prisma.playlist.delete({ where: { id: id } });
+    await playlistValidator.validatePlaylist(id);
 
-    if (playlist == null) {
-      throw new NotFoundException('Playlist not found');
-    }
+    const playlist = await prisma.playlist.delete({ where: { id: id } });
+
     return playlist;
   }
 
   async addMovieToPlaylist(playlistId: number, movieId: number) {
-    await playlistValidator.validatePlaylistMovie(playlistId, movieId);
+    await playlistValidator.validatePlaylist(playlistId);
+    await playlistValidator.validateMovie(movieId);
+    await playlistValidator.validateMovieInPlaylist(movieId, playlistId);
 
-    const movieToPlaylist = prisma.movieToPlaylist.create({
+    const movieToPlaylist = await prisma.movieToPlaylist.create({
       data: { playlistId: playlistId, movieId: movieId },
     });
 
@@ -54,10 +56,15 @@ export class PlaylistService {
   }
 
   async removeMovieFromPlaylist(playlistId: number, movieId: number) {
-    await playlistValidator.validatePlaylistMovie(playlistId, movieId);
+    await playlistValidator.validateMovieNotInPlaylist(movieId, playlistId);
 
-    const movieToPlaylist = prisma.movieToPlaylist.deleteMany({
-      where: { playlistId: playlistId, movieId: movieId },
+    const movieToPlaylist = await prisma.movieToPlaylist.delete({
+      where: {
+        playlistId_movieId: {
+          playlistId: playlistId,
+          movieId: movieId,
+        },
+      },
     });
 
     return movieToPlaylist;
@@ -66,7 +73,7 @@ export class PlaylistService {
   async getAllPlaylistMovies(id: number) {
     await playlistValidator.validatePlaylist(id);
 
-    const movies = prisma.movieToPlaylist.findMany({
+    const movies = await prisma.movieToPlaylist.findMany({
       where: { playlistId: id },
     });
 

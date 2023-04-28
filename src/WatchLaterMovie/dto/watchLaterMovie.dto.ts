@@ -3,7 +3,10 @@ import { WatchLaterStatus } from '@prisma/client';
 import { IsEnum, IsNumber } from 'class-validator';
 
 export class WatchLaterMovieDto {
-  @ApiProperty({ enum: ['WATCHED', 'NOT_WATCHED'] })
+  @ApiProperty({
+    enum: ['NOT_WATCHED', 'WATCHED'],
+    example: WatchLaterStatus.NOT_WATCHED,
+  })
   @IsEnum(WatchLaterStatus)
   watchLaterStatus: WatchLaterStatus;
   @ApiProperty()

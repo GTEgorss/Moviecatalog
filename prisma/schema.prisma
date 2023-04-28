@@ -16,7 +16,7 @@ model User {
   password String
   fullName String?
   email    String  @unique
-  role     Role
+  role     Role    @default(USER)
 
   playlists      Playlist[]
   watchLaterList WatchLaterMovie[]
@@ -57,21 +57,21 @@ model Movie {
 }
 
 model MovieToPlaylist {
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
   movie      Movie    @relation(fields: [movieId], references: [id])
+  playlistId Int
   movieId    Int
 
-  playlist   Playlist @relation(fields: [playlistId], references: [id])
-  playlistId Int
-
-  @@id([movieId, playlistId])
+  @@unique([playlistId, movieId])
 }
 
 model Favorite {
-  id      Int   @id @default(autoincrement())
   user    User  @relation(fields: [userId], references: [id])
   movie   Movie @relation(fields: [movieId], references: [id])
   userId  Int
   movieId Int
+
+  @@unique([userId, movieId])
 }
 
 model WatchLaterMovie {

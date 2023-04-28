@@ -3,6 +3,23 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { WatchLaterMovieDto } from './dto/watchLaterMovie.dto';
 
 export class WatchLaterMovieValidator {
+  async validate(dto: WatchLaterMovieDto) {
+    await this.validateUser(dto.userId);
+    await this.validateMovie(dto.movieId);
+
+    if (
+      Number(
+        await prisma.watchLaterMovie.count({
+          where: { userId: dto.userId, movieId: dto.movieId },
+        }),
+      ) != 0
+    ) {
+      throw new BadRequestException(
+        `Watch later movieId:${dto.movieId} userId:${dto.userId} already exists`,
+      );
+    }
+  }
+
   async validateUser(userId: number) {
     if (
       Number(
@@ -31,27 +48,12 @@ export class WatchLaterMovieValidator {
     }
   }
 
-  async validate(dto: WatchLaterMovieDto) {
-    await this.validateUser(dto.userId);
-    await this.validateMovie(dto.movieId);
-
-    if (
-      Number(
-        prisma.watchLaterMovie.count({
-          where: { userId: dto.userId, movieId: dto.movieId },
-        }),
-      ) != 0
-    ) {
-      throw new BadRequestException('Such watch later movie already exists');
-    }
-  }
-
   async validateWatchLaterMovie(id: number) {
     if (
       Number(
         await prisma.watchLaterMovie.count({
           where: {
-            id: id,
+            id: Number(id),
           },
         }),
       ) == 0

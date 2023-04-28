@@ -10,7 +10,7 @@ export class MovieService {
   async createMovie(dto: MovieDto) {
     await movieValidator.validate(dto);
 
-    const movie = prisma.movie.create({
+    const movie = await prisma.movie.create({
       data: {
         title: dto.title,
         year: dto.year,
@@ -46,21 +46,20 @@ export class MovieService {
     });
 
     if (movie == null) {
-      throw new NotFoundException();
+      throw new NotFoundException(`There is no movie id:${id}`);
     }
     return movie;
   }
 
   async deleteMovieById(id: number) {
-    try {
-      const movie = await prisma.movie.delete({
-        where: {
-          id: Number(id),
-        },
-      });
-      return movie;
-    } catch (e) {
-      throw new NotFoundException();
-    }
+    await movieValidator.validateMovie(id);
+
+    const movie = await prisma.movie.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    return movie;
   }
 }

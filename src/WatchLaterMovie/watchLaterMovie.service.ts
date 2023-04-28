@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  NotImplementedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { WatchLaterMovieDto } from './dto/watchLaterMovie.dto';
 import { WatchLaterStatus } from '@prisma/client';
 import prisma from '../main';
@@ -14,7 +10,7 @@ const watchLaterMovieValidator = new WatchLaterMovieValidator();
 export class WatchLaterMovieService {
   async createWatchLaterMovie(dto: WatchLaterMovieDto) {
     await watchLaterMovieValidator.validate(dto);
-    const watchLaterMovie = prisma.watchLaterMovie.create({
+    const watchLaterMovie = await prisma.watchLaterMovie.create({
       data: {
         userId: dto.userId,
         movieId: dto.movieId,
@@ -25,43 +21,50 @@ export class WatchLaterMovieService {
     return watchLaterMovie;
   }
 
-  getWatchLaterMovieById(id: number) {
-    const watchLaterMovie = prisma.watchLaterMovie.findUnique({
-      where: { id: id },
+  async getWatchLaterMovieById(id: number) {
+    const watchLaterMovie = await prisma.watchLaterMovie.findUnique({
+      where: { id: Number(id) },
     });
 
     if (watchLaterMovie == null) {
-      throw new NotFoundException('Watch later movie not found');
+      throw new NotFoundException(`There is no watch later movie id:${id}`);
     }
 
     return watchLaterMovie;
   }
 
-  getWatchLaterMoviesByUserId(id: number) {
-    const watchLaterMovies = prisma.watchLaterMovie.findMany({
+  async getWatchLaterMoviesByUserId(id: number) {
+    const watchLaterMovies = await prisma.watchLaterMovie.findMany({
       where: { userId: id },
     });
     return watchLaterMovies;
   }
 
-  deleteWatchLaterMovieById(id: number) {
-    const watchLaterMovie = prisma.watchLaterMovie.delete({
-      where: { id: id },
+  async deleteWatchLaterMovieById(id: number) {
+    const watchLaterMovie = await prisma.watchLaterMovie.delete({
+      where: { id: Number(id) },
     });
 
     if (watchLaterMovie == null) {
-      throw new NotFoundException('Watch later movie not found');
+      throw new NotFoundException(`There is no watch later movie id:${id}`);
     }
 
     return watchLaterMovie;
   }
 
-  async changeWatchLaterStatus(id: number, status: WatchLaterStatus) {
+  async changeWatchLaterStatus(id: number, status: string) {
     await watchLaterMovieValidator.validateWatchLaterMovie(id);
 
-    const watchLaterMovie = prisma.watchLaterMovie.update({
-      where: { id: id },
-      data: { watchLaterStatus: status },
+    console.log(id);
+
+    status =
+      status === 'WATCHED'
+        ? WatchLaterStatus.WATCHED
+        : WatchLaterStatus.NOT_WATCHED;
+
+    const watchLaterMovie = await prisma.watchLaterMovie.update({
+      where: { id: Number(id) },
+      data: { watchLaterStatus: status as WatchLaterStatus },
     });
 
     return watchLaterMovie;

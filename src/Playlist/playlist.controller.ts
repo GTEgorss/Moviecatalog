@@ -5,12 +5,16 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  Patch,
   Post,
 } from '@nestjs/common';
 import { PlaylistService } from './playlist.service';
 import { PlaylistDto } from './dto/playlist.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  getSchemaPath,
+} from '@nestjs/swagger';
 import { MovieToPlaylistDto } from './dto/movie-to-playlist.dto';
 
 @ApiTags('Playlist')
@@ -19,7 +23,11 @@ export class PlaylistController {
   constructor(private readonly playlistService: PlaylistService) {}
 
   @ApiOperation({ summary: 'create playlist' })
-  @ApiResponse({ status: 201, description: 'Playlists created successfully' })
+  @ApiResponse({
+    status: 201,
+    description: 'Playlists created successfully',
+    schema: { $ref: getSchemaPath(PlaylistDto) },
+  })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @Post('create')
@@ -27,8 +35,12 @@ export class PlaylistController {
     return this.playlistService.createPlaylist(dto);
   }
 
-  @ApiOperation({ summary: 'get review by id' })
-  @ApiResponse({ status: 200, description: 'Playlists provided successfully' })
+  @ApiOperation({ summary: 'get all playlists by title' })
+  @ApiResponse({
+    status: 200,
+    description: 'Playlists provided successfully',
+    type: PlaylistDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @Get('title/:title')
@@ -39,7 +51,11 @@ export class PlaylistController {
   }
 
   @ApiOperation({ summary: 'get playlist by id' })
-  @ApiResponse({ status: 200, description: 'Playlist provided successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Playlist provided successfully',
+    type: PlaylistDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @Get('id/:id')
@@ -50,7 +66,11 @@ export class PlaylistController {
   }
 
   @ApiOperation({ summary: 'delete playlist by id' })
-  @ApiResponse({ status: 200, description: 'Playlist deleted succesfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Playlist deleted succesfully',
+    type: PlaylistDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @Delete('id/:id')
@@ -61,10 +81,14 @@ export class PlaylistController {
   }
 
   @ApiOperation({ summary: 'add movie to playlist' })
-  @ApiResponse({ status: 200, description: 'Movie added successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Movie added successfully',
+    schema: { $ref: getSchemaPath(MovieToPlaylistDto) },
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
-  @Patch('addmovie/:playlistid/:movieid')
+  @Post('addmovie/:playlistid/:movieid')
   addMovieToPlaylist(
     @Param('playlistid', ParseIntPipe) playlistId: number,
     @Param('movieid', ParseIntPipe) movieId: number,
@@ -73,10 +97,14 @@ export class PlaylistController {
   }
 
   @ApiOperation({ summary: 'remove movie from playlist' })
-  @ApiResponse({ status: 200, description: 'Movie removed successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Movie removed successfully',
+    type: MovieToPlaylistDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
-  @Patch('removemovie/:playlistid/:movieid')
+  @Delete('removemovie/:playlistid/:movieid')
   removeMovieFromPlaylist(
     @Param('playlistid', ParseIntPipe) playlistId: number,
     @Param('movieid', ParseIntPipe) movieId: number,
@@ -85,7 +113,11 @@ export class PlaylistController {
   }
 
   @ApiOperation({ summary: 'get all movies in a playlist' })
-  @ApiResponse({ status: 200, description: 'Movies provided successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Movies provided successfully',
+    type: MovieToPlaylistDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @Get('list/:playlistid/')

@@ -32,7 +32,7 @@ export class UserService {
     });
 
     if (user == null) {
-      throw new NotFoundException();
+      throw new NotFoundException(`There is no user with username:${username}`);
     }
     return user;
   }
@@ -45,7 +45,7 @@ export class UserService {
     });
 
     if (user == null) {
-      throw new NotFoundException();
+      throw new NotFoundException(`There is not user with email:${email}`);
     }
     return user;
   }
@@ -58,56 +58,50 @@ export class UserService {
     });
 
     if (user == null) {
-      throw new NotFoundException();
+      throw new NotFoundException(`There is no user with id:${id}`);
     }
     return user;
   }
 
   async deleteUserByUsername(username: string) {
-    try {
-      const user = await prisma.user.delete({
-        where: {
-          username: username,
-        },
-      });
-      return user;
-    } catch (e) {
-      throw new NotFoundException();
-    }
+    await userValidator.validateUserByUsername(username);
+
+    const user = await prisma.user.delete({
+      where: {
+        username: username,
+      },
+    });
+    return user;
   }
 
   async deleteUserByEmail(email: string) {
-    try {
-      const user = await prisma.user.delete({
-        where: {
-          email: email,
-        },
-      });
-      return user;
-    } catch (e) {
-      throw new NotFoundException();
-    }
+    await userValidator.validateUserByEmail(email);
+
+    const user = await prisma.user.delete({
+      where: {
+        email: email,
+      },
+    });
+    return user;
   }
 
   async deleteUserById(id: number) {
-    try {
-      const user = await prisma.user.delete({
-        where: {
-          id: Number(id),
-        },
-      });
-      return user;
-    } catch (e) {
-      throw new NotFoundException();
-    }
+    await userValidator.validateUserById(id);
+
+    const user = await prisma.user.delete({
+      where: {
+        id: id,
+      },
+    });
+    return user;
   }
 
   async addFavorite(userId: number, movieId: number) {
-    await userValidator.validateUser(userId);
+    await userValidator.validateUserById(userId);
     await userValidator.validateMovie(movieId);
-    await userValidator.validateFavorite(userId, movieId);
+    await userValidator.validateFavoriteNotExistent(userId, movieId);
 
-    const favorite = prisma.favorite.create({
+    const favorite = await prisma.favorite.create({
       data: { userId: userId, movieId: movieId },
     });
 
@@ -115,18 +109,24 @@ export class UserService {
   }
 
   async getFavorites(userId: number) {
-    await userValidator.validateUser(userId);
+    await userValidator.validateUserById(userId);
 
-    const favorites = prisma.favorite.findMany({ where: { userId: userId } });
+    const favorites = await prisma.favorite.findMany({
+      where: { userId: userId },
+    });
     return favorites;
   }
 
   async removeFavorite(userId: number, movieId: number) {
-    await userValidator.validateUser(userId);
-    await userValidator.validateMovie(movieId);
+    await userValidator.validateFavoriteExistent(userId, movieId);
 
-    const favorite = prisma.favorite.deleteMany({
-      where: { userId: userId, movieId: movieId },
+    const favorite = await prisma.favorite.delete({
+      where: {
+        userId_movieId: {
+          userId: userId,
+          movieId: movieId,
+        },
+      },
     });
 
     return favorite;
