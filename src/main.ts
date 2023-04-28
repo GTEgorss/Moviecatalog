@@ -8,9 +8,11 @@ import * as process from 'process';
 import { PrismaClient } from '@prisma/client';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './exception.filter';
+import supertokens from 'supertokens-node';
 
 const prisma = new PrismaClient();
 export default prisma;
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -35,6 +37,12 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  app.enableCors({
+    origin: ['http://localhost:2002'],
+    allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
+    credentials: true,
+  });
 
   const port = process.env.PORT || 6974;
   console.log(`Port: ${port}`);

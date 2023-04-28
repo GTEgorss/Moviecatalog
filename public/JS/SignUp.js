@@ -10,7 +10,7 @@ async function signUp() {
   if (password !== confirm_password) {
     alert('Make sure that passwords match in Password and Confirm password');
   } else {
-    let url = global_address + '/user/create';
+    let url = global_url + '/user/create';
 
     await fetch(url, {
       method: 'POST',
