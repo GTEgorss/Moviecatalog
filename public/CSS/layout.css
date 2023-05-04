@@ -44,11 +44,11 @@
     gap: 20px;
 }
 
-.layout-text-input-box-login {
+.layout-input-subtitle-box-login {
     width: 120px;
 }
 
-.layout-text-input-box-signup {
+.layout-input-subtitle-box-signup {
     width: 200px;
 }
 
@@ -84,4 +84,15 @@
 
     gap: 10px;
     margin: 10px 0 0;
+}
+
+.layout-movie-info-subtitle-box {
+    width: 200px;
+}
+
+.layout-movie-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
 }

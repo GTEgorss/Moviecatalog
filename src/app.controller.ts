@@ -1,4 +1,10 @@
-import { Controller, Get, Render, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Render,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { ResponseTimeInterceptor } from './interceptor';
 import { ApiExcludeController } from '@nestjs/swagger';
@@ -11,6 +17,7 @@ const username = 'GTEgorss';
 @UseInterceptors(ResponseTimeInterceptor)
 export class AppController {
   constructor(private readonly appService: AppService) {}
+
   @Get('/')
   @Render('index')
   index() {
@@ -57,5 +64,17 @@ export class AppController {
   @Render('login')
   login() {
     return { loggedIn: loggedIn, username: username };
+  }
+
+  @Get('/createlist')
+  @Render('createlist')
+  createlist() {
+    return { loggedIn: loggedIn, username: username };
+  }
+
+  @Get('/movieprofile/:id')
+  @Render('movieprofile')
+  movie(@Param('id') id: number) {
+    return this.appService.showMovie(loggedIn, username, id);
   }
 }

@@ -11,6 +11,7 @@ import { WatchLaterMovieService } from './watchLaterMovie.service';
 import { WatchLaterMovieDto } from './dto/watchLaterMovie.dto';
 import {
   ApiOperation,
+  ApiParam,
   ApiQuery,
   ApiResponse,
   ApiTags,
@@ -97,6 +98,7 @@ export class WatchLaterMovieController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
+  @ApiParam({ name: 'status', enum: WatchLaterStatus })
   @Patch('changestatus/:watchlatermovieid/:status')
   changeWatchLaterStatus(
     @Param('watchlatermovieid') id: number,

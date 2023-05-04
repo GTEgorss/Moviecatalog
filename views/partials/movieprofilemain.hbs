@@ -1,0 +1,51 @@
+<main>
+  <h1>{{ title}}</h1>
+
+  <div class="layout-movie-info">
+    <div class="layout-movie-info-subtitle-box">Year:</div>
+    <div id="year">{{year}}</div>
+  </div>
+
+  <div class="layout-movie-info">
+    <div class="layout-movie-info-subtitle-box">Country:</div>
+    <div id="country">{{country}}</div>
+  </div>
+
+  <div class="layout-movie-info">
+    <div class="layout-movie-info-subtitle-box">Genre:</div>
+    <div id="genre">{{genre}}</div>
+  </div>
+
+  <div class="layout-movie-info">
+    <div class="layout-movie-info-subtitle-box">Director:</div>
+    <div id="director">{{director}}</div>
+  </div>
+
+  <div class="layout-movie-info">
+    <div class="layout-movie-info-subtitle-box">Cast:</div>
+    <div id="cast">{{cast}}</div>
+  </div>
+
+  <div class="layout-movie-info">
+    <div class="layout-movie-info-subtitle-box">Duration:</div>
+    <div id="duration">{{duration}}</div>
+  </div>
+
+  <div class="layout-movie-info">
+    <div class="layout-movie-info-subtitle-box">Age restriction:</div>
+    <div id="age-restriction">{{age}}+</div>
+  </div>
+
+  {{#if isSeasoned}}
+    <div class="layout-movie-info">
+      <div class="layout-movie-info-subtitle-box">Seasons:</div>
+      <div id="seasons">{{seasons}}</div>
+    </div>
+  {{/if}}
+
+  <div class="layout-movie-info">
+    <div class="layout-movie-info-subtitle-box">Description:</div>
+    <div id="description">{{description}}</div>
+  </div>
+
+</main>

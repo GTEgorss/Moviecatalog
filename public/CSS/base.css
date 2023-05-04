@@ -12,6 +12,23 @@ main {
     margin-right: 20px;
 }
 
+main h1 {
+    margin: 10px 0 10px;
+}
+
+main hr {
+    margin: 10px 0 30px
+}
+
+footer a {
+    color: white;
+    margin: 5px;
+}
+
+footer hr {
+    margin: 10px 20px 30px;
+}
+
 footer {
     margin: 40px 0;
     text-align: center;

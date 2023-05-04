@@ -1,24 +1,28 @@
-import { PlaylistDto } from './dto/playlist.dto';
 import prisma from '../main';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { PlaylistUsernameDto } from './dto/playlist-username.dto';
 
 export class PlaylistValidator {
-  async validate(dto: PlaylistDto) {
-    if (Number(await prisma.user.count({ where: { id: dto.userId } })) == 0) {
-      throw new BadRequestException(
-        `Bad request. There is no user with id:${dto.userId}`,
-      );
-    }
-
+  async validate(dto: PlaylistUsernameDto, userId: number) {
     if (
       Number(
         await prisma.playlist.count({
-          where: { title: dto.title, userId: dto.userId },
+          where: { title: dto.title, userId: userId },
         }),
       ) != 0
     ) {
       throw new BadRequestException(
-        `There is already a movie with title:${dto.title}`,
+        `There is already a playlist with title:${dto.title}`,
+      );
+    }
+  }
+
+  async validateUserByUsername(username: string) {
+    if (
+      Number(await prisma.user.count({ where: { username: username } })) == 0
+    ) {
+      throw new BadRequestException(
+        `Bad request. There is no user with username:${username}`,
       );
     }
   }

@@ -1,19 +1,37 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PlaylistDto } from './dto/playlist.dto';
 import prisma from '../main';
 import { PlaylistValidator } from './playlist.validator';
+import { PlaylistUsernameDto } from './dto/playlist-username.dto';
 
 const playlistValidator = new PlaylistValidator();
 
 @Injectable()
 export class PlaylistService {
-  async createPlaylist(dto: PlaylistDto) {
-    await playlistValidator.validate(dto);
+  async createPlaylist(dto: PlaylistUsernameDto) {
+    await playlistValidator.validateUserByUsername(dto.username);
+
+    const id = await Promise.resolve(
+      prisma.user
+        .findUnique({
+          where: {
+            username: dto.username,
+          },
+          select: {
+            id: true,
+          },
+        })
+        .then((value) => {
+          return value.id;
+        }),
+    );
+
+    await playlistValidator.validate(dto, id);
+
     const playlist = await prisma.playlist.create({
       data: {
         title: dto.title,
         private: Boolean(dto.private),
-        userId: dto.userId,
+        userId: id,
       },
     });
     return playlist;

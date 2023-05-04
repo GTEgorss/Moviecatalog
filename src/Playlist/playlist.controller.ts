@@ -16,6 +16,7 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 import { MovieToPlaylistDto } from './dto/movie-to-playlist.dto';
+import { PlaylistUsernameDto } from './dto/playlist-username.dto';
 
 @ApiTags('Playlist')
 @Controller('playlist')
@@ -26,12 +27,12 @@ export class PlaylistController {
   @ApiResponse({
     status: 201,
     description: 'Playlists created successfully',
-    schema: { $ref: getSchemaPath(PlaylistDto) },
+    schema: { $ref: getSchemaPath(PlaylistUsernameDto) },
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @Post('create')
-  async createPlaylist(@Body() dto: PlaylistDto): Promise<PlaylistDto> {
+  async createPlaylist(@Body() dto: PlaylistUsernameDto): Promise<PlaylistDto> {
     return this.playlistService.createPlaylist(dto);
   }
 
