@@ -10,7 +10,7 @@ import { ConfigInjectionToken, AuthModuleConfig } from './config.interface';
 import { SupertokensService } from './supertokens.service';
 
 @Module({
-  providers: [SupertokensService],
+  providers: [],
   exports: [],
   controllers: [],
 })

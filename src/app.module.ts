@@ -8,6 +8,7 @@ import { ReviewModule } from './Review/review.module';
 import { PlaylistModule } from './Playlist/playlist.module';
 import { WatchLaterMovieModule } from './WatchLaterMovie/watchLaterMovie.module';
 import { AuthModule } from './auth/auth.module';
+import * as process from 'process';
 
 @Module({
   imports: [
@@ -18,15 +19,12 @@ import { AuthModule } from './auth/auth.module';
     PlaylistModule,
     WatchLaterMovieModule,
     AuthModule.forRoot({
-      // These are the connection details of the app you created on supertokens.com
-      connectionURI:
-        'https://dev-e230ed21e5d711ed801de9dfa4afff12-eu-west-1.aws.supertokens.io:3571',
-      apiKey: 'MITsa18TvjkJFZ1jqiEShaioYbryPc',
+      connectionURI: process.env.AUTH_URI,
+      apiKey: process.env.AUTH_APIKEY,
       appInfo: {
-        // Learn more about this on https://supertokens.com/docs/emailpassword/appinfo
         appName: 'moviecatalog',
-        apiDomain: 'http://localhost:2002',
-        websiteDomain: 'http://localhost:2002',
+        apiDomain: process.env.URL,
+        websiteDomain: process.env.URL,
         apiBasePath: '/apiauth',
         websiteBasePath: '/auth',
       },

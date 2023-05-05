@@ -4,11 +4,15 @@ import {
   Param,
   ParseIntPipe,
   Render,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ResponseTimeInterceptor } from './interceptor';
 import { ApiExcludeController } from '@nestjs/swagger';
+import { AuthGuard } from './auth/auth.guard';
+import { Session } from './auth/session.decorator';
+import { SessionContainer } from 'supertokens-node/recipe/session';
 
 const loggedIn = true;
 const username = 'GTEgorss';
@@ -89,5 +93,15 @@ export class AppController {
   @Render('listprofile')
   list(@Param('id', ParseIntPipe) id: number) {
     return this.appService.showPlaylist(loggedIn, username, id);
+  }
+
+  @Get('/test')
+  @UseGuards(new AuthGuard())
+  test(@Session() session: SessionContainer) {
+    if (session !== undefined) {
+      const userId = session.getUserId();
+    } else {
+    }
+    return 'magic';
   }
 }

@@ -9,6 +9,7 @@ import { PrismaClient } from '@prisma/client';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './exception.filter';
 import supertokens from 'supertokens-node';
+import { SupertokensExceptionFilter } from './auth/auth.filter';
 
 const prisma = new PrismaClient();
 export default prisma;
@@ -23,6 +24,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new SupertokensExceptionFilter());
 
   const config = new DocumentBuilder()
     .setTitle('moviecatalog')
@@ -39,7 +41,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.enableCors({
-    origin: ['http://localhost:2002'],
+    origin: [process.env.URL],
     allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
     credentials: true,
   });
