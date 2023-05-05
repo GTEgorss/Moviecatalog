@@ -13,7 +13,7 @@ export class ResponseTimeInterceptor implements NestInterceptor {
     const now = Date.now();
     return next.handle().pipe(
       map((event) => {
-        const responseTime = Date.now() - now;
+        const responseTime = (Date.now() - now) / 1000;
         return { ...event, responseTime: responseTime };
       }),
     );

@@ -45,7 +45,9 @@ export class PlaylistService {
   }
 
   async getPlaylistById(id: number) {
-    const playlist = await prisma.playlist.findUnique({ where: { id: id } });
+    const playlist = await prisma.playlist.findUnique({
+      where: { id: Number(id) },
+    });
 
     if (playlist == null) {
       throw new NotFoundException(`There is no playlist id:${id}`);
@@ -56,7 +58,15 @@ export class PlaylistService {
   async deletePlaylistById(id: number) {
     await playlistValidator.validatePlaylist(id);
 
-    const playlist = await prisma.playlist.delete({ where: { id: id } });
+    await prisma.movieToPlaylist.deleteMany({
+      where: {
+        playlistId: Number(id),
+      },
+    });
+
+    const playlist = await prisma.playlist.delete({
+      where: { id: Number(id) },
+    });
 
     return playlist;
   }
@@ -66,8 +76,21 @@ export class PlaylistService {
     await playlistValidator.validateMovie(movieId);
     await playlistValidator.validateMovieInPlaylist(movieId, playlistId);
 
+    const title = await prisma.movie
+      .findUnique({
+        where: {
+          id: Number(movieId),
+        },
+        select: {
+          title: true,
+        },
+      })
+      .then((value) => {
+        return value.title;
+      });
+
     const movieToPlaylist = await prisma.movieToPlaylist.create({
-      data: { playlistId: playlistId, movieId: movieId },
+      data: { playlistId: playlistId, movieId: movieId, movieTitle: title },
     });
 
     return movieToPlaylist;
@@ -92,7 +115,7 @@ export class PlaylistService {
     await playlistValidator.validatePlaylist(id);
 
     const movies = await prisma.movieToPlaylist.findMany({
-      where: { playlistId: id },
+      where: { playlistId: Number(id) },
     });
 
     return movies;

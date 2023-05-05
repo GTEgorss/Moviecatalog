@@ -23,3 +23,7 @@
 .is-movie-table-empty {
     display: none;
 }
+
+.is-hidden {
+    display: none;
+}

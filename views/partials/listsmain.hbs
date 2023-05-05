@@ -1,14 +1,23 @@
 <main>
 
-  <h1>Lists</h1>
+  <h1>Playlists</h1>
 
   <hr>
 
-  <div class="text">
-    <a class="button button--create" href="createlist">Create playlist</a>
+  <a class="button button--create" href="createlist">Create playlist</a>
 
+  <div id="playlist-spinner" class="spinner">
+    <div class="spinner-head">
+    </div>
   </div>
 
+  <p id="no-playlists" class="is-hidden">You have no playlists</p>
 
+  <table id="playlists" class="is-movie-table-empty">
+    <tr>
+      <th>Title</th>
+      <th>Private</th>
+    </tr>
+  </table>
 
 </main>

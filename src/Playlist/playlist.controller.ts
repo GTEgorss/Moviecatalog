@@ -17,6 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { MovieToPlaylistDto } from './dto/movie-to-playlist.dto';
 import { PlaylistUsernameDto } from './dto/playlist-username.dto';
+import { MovieTitleToPlaylistDto } from './dto/movie-title-to-playlist.dto';
 
 @ApiTags('Playlist')
 @Controller('playlist')
@@ -101,7 +102,7 @@ export class PlaylistController {
   @ApiResponse({
     status: 200,
     description: 'Movie removed successfully',
-    type: MovieToPlaylistDto,
+    type: MovieTitleToPlaylistDto,
   })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
@@ -117,14 +118,14 @@ export class PlaylistController {
   @ApiResponse({
     status: 200,
     description: 'Movies provided successfully',
-    type: MovieToPlaylistDto,
+    type: MovieTitleToPlaylistDto,
   })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @Get('list/:playlistid/')
   getAllPlaylistMovies(
     @Param('playlistid', ParseIntPipe) id: number,
-  ): Promise<MovieToPlaylistDto[]> {
+  ): Promise<MovieTitleToPlaylistDto[]> {
     return this.playlistService.getAllPlaylistMovies(id);
   }
 }

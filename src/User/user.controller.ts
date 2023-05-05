@@ -16,6 +16,7 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 import { FavoriteDto } from './dto/favorite.dto';
+import { PlaylistDto } from '../Playlist/dto/playlist.dto';
 
 @ApiTags('User')
 @Controller('/user')
@@ -138,7 +139,7 @@ export class UserController {
   @ApiOperation({ summary: 'get favorites' })
   @ApiResponse({
     status: 200,
-    description: 'Movie removed successfully',
+    description: 'Favorites provided successfully',
     type: FavoriteDto,
   })
   @ApiResponse({ status: 403, description: 'Forbidden' })
@@ -164,5 +165,20 @@ export class UserController {
     @Param('movieId', ParseIntPipe) movieId: number,
   ): Promise<FavoriteDto> {
     return this.userService.removeFavorite(userId, movieId);
+  }
+
+  @ApiOperation({ summary: 'get playlists' })
+  @ApiResponse({
+    status: 200,
+    description: 'Playlists provided successfully',
+    type: PlaylistDto,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  @Get('playlists/:username')
+  async getPlaylists(
+    @Param('username') username: string,
+  ): Promise<PlaylistDto[]> {
+    return this.userService.getPlaylists(username);
   }
 }

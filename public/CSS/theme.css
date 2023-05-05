@@ -13,14 +13,22 @@
     padding-top: 13px;
     padding-bottom: 13px;
     border-radius: 15px;
+    cursor: pointer;
 }
 
 .button--remove {
+    height: 20px;
     border-radius: 40px;
 }
 
 .button--create {
     border-radius: 40px;
+    margin-bottom: 20px;
+}
+
+.button--add {
+    border-radius: 40px;
+    margin-bottom: 20px;
 }
 
 .button--refresh {
@@ -40,6 +48,11 @@
 .explore-movie-table {
     color: black;
     max-width: 50%;
+}
+
+.playlists-movie-table {
+    color: black;
+    max-width: 40%;
 }
 
 .my-notie-textbox {

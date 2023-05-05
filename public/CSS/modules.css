@@ -9,6 +9,8 @@
 }
 
 .button {
+    all: unset;
+    display: inline-block;
     color: black;
     text-decoration: none;
     text-align: center;

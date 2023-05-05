@@ -96,3 +96,13 @@
     align-items: center;
     margin-bottom: 10px;
 }
+
+.layout-movie-info-content-box {
+    width: 80%;
+}
+
+.layout-playlist-movie-block {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}

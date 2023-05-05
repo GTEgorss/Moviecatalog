@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   Render,
   UseInterceptors,
 } from '@nestjs/common';
@@ -74,7 +75,13 @@ export class AppController {
 
   @Get('/movieprofile/:id')
   @Render('movieprofile')
-  movie(@Param('id') id: number) {
+  movie(@Param('id', ParseIntPipe) id: number) {
     return this.appService.showMovie(loggedIn, username, id);
+  }
+
+  @Get('/playlist/:id')
+  @Render('listprofile')
+  list(@Param('id', ParseIntPipe) id: number) {
+    return this.appService.showPlaylist(loggedIn, username, id);
   }
 }

@@ -63,6 +63,7 @@ model MovieToPlaylist {
   movie      Movie    @relation(fields: [movieId], references: [id])
   playlistId Int
   movieId    Int
+  movieTitle String
 
   @@unique([playlistId, movieId])
 }
@@ -72,6 +73,7 @@ model Favorite {
   movie   Movie @relation(fields: [movieId], references: [id])
   userId  Int
   movieId Int
+  movieTitle String
 
   @@unique([userId, movieId])
 }

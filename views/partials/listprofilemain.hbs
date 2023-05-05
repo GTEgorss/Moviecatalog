@@ -1,0 +1,19 @@
+<main>
+
+  <h1>{{ playlistTitle}}</h1>
+
+  <hr>
+
+  {{#if isEmpty}}
+    <p id="no-movies">This playlist is empty</p>
+  {{else}}
+    {{#each movies}}
+      <div class="layout-playlist-movie-block">
+        <p class="movie-list--movie-name">{{movieTitle}}</p>
+
+        <button class="button button--remove" onclick="removeMovie(this, {{playlistId}}, {{movieId}})">Remove</button>
+      </div>
+    {{/each}}
+  {{/if}}
+
+</main>

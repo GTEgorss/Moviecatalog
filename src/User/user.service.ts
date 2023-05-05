@@ -131,4 +131,31 @@ export class UserService {
 
     return favorite;
   }
+
+  async getPlaylists(username: string) {
+    await userValidator.validateUserByUsername(username);
+
+    const id = await Promise.resolve(
+      prisma.user
+        .findUnique({
+          where: {
+            username: username,
+          },
+          select: {
+            id: true,
+          },
+        })
+        .then((value) => {
+          return value.id;
+        }),
+    );
+
+    const playlists = await prisma.playlist.findMany({
+      where: {
+        userId: Number(id),
+      },
+    });
+
+    return playlists;
+  }
 }

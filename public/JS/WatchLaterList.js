@@ -94,7 +94,7 @@ function addToListFromInput() {
  * @param watched
  * @function
  */
-function addToList(movie_name, watched) {
+function addToList(id, movie_name, watched) {
   const movieList = document.getElementById('movieList').children[0];
 
   const movie = document.createElement('tr');
@@ -110,9 +110,9 @@ function addToList(movie_name, watched) {
   check.setAttribute('class', 'movie-list--checkbox');
   check.addEventListener('change', (event) => {
     if (event.currentTarget.checked) {
-      setWatchLaterStatus(event.currentTarget, true);
+      setWatchLaterStatus(id, event.currentTarget, true);
     } else {
-      setWatchLaterStatus(event.currentTarget, false);
+      setWatchLaterStatus(id, event.currentTarget, false);
     }
   });
   check_td.appendChild(check);
@@ -134,7 +134,7 @@ function addToList(movie_name, watched) {
   const remove = document.createElement('div');
   remove.textContent = 'Remove';
   remove.setAttribute('class', 'button button--remove');
-  remove.setAttribute('onclick', 'removeWatchLaterMovie(this)');
+  remove.setAttribute('onclick', `removeWatchLaterMovie(this, ${id})`);
   remove_td.appendChild(remove);
 
   movie.appendChild(check_td);
@@ -195,15 +195,17 @@ function removeFromList(node) {
  * Applies filter for the movie nodes in the list on the page
  * @function
  */
-function addFilter() {
+function addFilter(filter) {
   const movie_list = document.querySelectorAll('tr[name="movieListItem"]');
 
-  movie_list.forEach((e) => {
-    const movieName = e.children[1].firstChild.firstChild.textContent;
-    if (filter(movies.find((m) => m.name === movieName).watched)) {
-      e.setAttribute('class', 'layout-movie-list-item');
+  movie_list.forEach((item) => {
+    const checked =
+      filter === 'all' ||
+      item.children[0].firstChild.checked ^ (filter === 'not_watched');
+    if (checked) {
+      item.setAttribute('class', 'layout-movie-list-item');
     } else {
-      e.setAttribute('class', 'is-filtered-out');
+      item.setAttribute('class', 'is-filtered-out');
     }
   });
 }
@@ -258,22 +260,22 @@ window.onload = () => {
       if (event.currentTarget.checked) {
         switch (event.currentTarget.id) {
           case 'all':
-            filter = (watched) => {
-              return true;
-            };
-            addFilter();
+            // filter = (watched) => {
+            //   return true;
+            // };
+            addFilter('all');
             break;
           case 'watched':
-            filter = (watched) => {
-              return watched;
-            };
-            addFilter();
+            // filter = (watched) => {
+            //   return watched;
+            // };
+            addFilter('watched');
             break;
           case 'notWatched':
-            filter = (watched) => {
-              return !watched;
-            };
-            addFilter();
+            // filter = (watched) => {
+            //   return !watched;
+            // };
+            addFilter('not_watched');
             break;
           default:
             break;
