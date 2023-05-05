@@ -1,3 +1,12 @@
+window.onload = () => {
+  const input = document.getElementById('movieTitle');
+  input.addEventListener('keyup', function (event) {
+    if (event.key === 'Enter') {
+      DoSearch();
+    }
+  });
+};
+
 function DoSearch() {
   document.getElementById('search-spinner').setAttribute('class', 'spinner');
 

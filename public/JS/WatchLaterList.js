@@ -231,6 +231,16 @@ function initializeListFromLocalStorage() {
  */
 window.onload = () => {
   /**
+   * Adds event listener to Enter button
+   */
+  const input = document.getElementById('movieName');
+  input.addEventListener('keyup', function (event) {
+    if (event.key === 'Enter') {
+      addToListFromInput();
+    }
+  });
+
+  /**
    * Adds event listener to filter checkboxes
    */
   const filters = document.querySelectorAll('input[name="movieFilter"]');
