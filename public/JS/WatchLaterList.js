@@ -231,31 +231,6 @@ function initializeListFromLocalStorage() {
  */
 window.onload = () => {
   /**
-   * Creates movies array in the local
-   */
-  try {
-    console.log(localStorage.getItem('movies'));
-    if (localStorage.getItem('movies') == null)
-      localStorage.setItem('movies', '[]');
-
-    console.log(localStorage.getItem('movies'));
-  } catch (e) {
-    alert(
-      'Something went wrong while initializing movies in the local storage.',
-    );
-  }
-
-  /**
-   * Adds event listener to Enter button
-   */
-  const input = document.getElementById('movieName');
-  input.addEventListener('keyup', function (event) {
-    if (event.key === 'Enter') {
-      addToListFromInput();
-    }
-  });
-
-  /**
    * Adds event listener to filter checkboxes
    */
   const filters = document.querySelectorAll('input[name="movieFilter"]');
