@@ -87,7 +87,7 @@
 }
 
 .layout-movie-info-subtitle-box {
-    width: 200px;
+    width: 250px;
 }
 
 .layout-movie-info {
@@ -105,4 +105,13 @@
     display: flex;
     justify-content: flex-start;
     margin-bottom: 20px;
+}
+
+.layout-movie-link-box {
+    width: 250px;
+}
+
+.layout-movie-add-buttons {
+    display: flex;
+    justify-content: flex-start;
 }

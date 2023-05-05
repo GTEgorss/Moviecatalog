@@ -1,24 +1,66 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { WatchLaterMovieDto } from './dto/watchLaterMovie.dto';
+import { WatchLaterMovieUserIDDto } from './dto/watchlatermovie-userid.dto';
 import { WatchLaterStatus } from '@prisma/client';
 import prisma from '../main';
 import { WatchLaterMovieValidator } from './watchlatermovie.validator';
+import { WatchLaterMovieUsernameDto } from './dto/watchlatermovie-username.dto';
 
 const watchLaterMovieValidator = new WatchLaterMovieValidator();
 
 @Injectable()
 export class WatchLaterMovieService {
-  async createWatchLaterMovie(dto: WatchLaterMovieDto) {
-    await watchLaterMovieValidator.validate(dto);
+  async createWatchLaterMovieUserID(dto: WatchLaterMovieUserIDDto) {
+    await watchLaterMovieValidator.validateBodyWithUserID(dto);
     const watchLaterMovie = await prisma.watchLaterMovie.create({
       data: {
         userId: dto.userId,
         movieId: dto.movieId,
+        movieTitle: await this.getMovieTitleById(dto.movieId),
         watchLaterStatus: dto.watchLaterStatus,
       },
     });
 
     return watchLaterMovie;
+  }
+
+  async createWatchLaterMovieUsername(dto: WatchLaterMovieUsernameDto) {
+    await watchLaterMovieValidator.validateBodyWithUsername(dto);
+
+    const userId = await Promise.resolve(
+      prisma.user
+        .findUnique({ where: { username: dto.username }, select: { id: true } })
+        .then((value) => {
+          return value.id;
+        }),
+    );
+
+    const watchLaterMovie = await prisma.watchLaterMovie.create({
+      data: {
+        userId: Number(userId),
+        movieId: dto.movieId,
+        movieTitle: await this.getMovieTitleById(dto.movieId),
+        watchLaterStatus: dto.watchLaterStatus,
+      },
+    });
+
+    return watchLaterMovie;
+  }
+
+  async getMovieTitleById(movieId: number) {
+    const title = await Promise.resolve(
+      prisma.movie
+        .findUnique({
+          where: {
+            id: Number(movieId),
+          },
+          select: { title: true },
+        })
+        .then((value) => {
+          return value.title;
+        }),
+    );
+
+    return title;
   }
 
   async getWatchLaterMovieById(id: number) {

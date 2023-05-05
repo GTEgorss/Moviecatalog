@@ -10,8 +10,9 @@
           break;
         case '/lists':
         case '/favorites':
-        case '/explore':
         case '/watchlater':
+        case '/search':
+        case '/explore':
         case '/style':
           addSelected(location.pathname.substr(1));
           break;
@@ -23,5 +24,7 @@
 })();
 
 function addSelected(id) {
-  document.getElementById(id).setAttribute('class', 'button button--nav is-button-selected');
+  document
+    .getElementById(id)
+    .setAttribute('class', 'button button--nav is-button-selected');
 }

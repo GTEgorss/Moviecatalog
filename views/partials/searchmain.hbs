@@ -1,0 +1,31 @@
+<main>
+  <h1>Search</h1>
+
+  <hr>
+
+  <div class="layout-text-input">
+    <label for="movieTitle" class="text-input--subtitle">Playlist ID:</label>
+    <input type="text" id="movieTitle" class="text-input">
+    <br>
+    <div class="button button--submit" onclick="DoSearch()">Search</div>
+  </div>
+
+  <br>
+
+  <div id="search-spinner" class="spinner is-hidden">
+    <div class="spinner-head">
+    </div>
+  </div>
+
+  <p id="no-results" class="is-hidden">No results</p>
+
+  <table id="results" class="is-movie-table-empty">
+    <tr>
+      <th>Title</th>
+      <th>Year</th>
+      <th>Genre</th>
+      <th>Age</th>
+    </tr>
+  </table>
+
+</main>

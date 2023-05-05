@@ -51,11 +51,11 @@ model Movie {
   rating  Float?
   reviews Review[]
 
-  @@index([title], type: Hash)
-
   moviesToPlaylists MovieToPlaylist[]
   watchLaterMovies  WatchLaterMovie[]
   favorites         Favorite[]
+
+  @@index([title], type: Hash)
 }
 
 model MovieToPlaylist {
@@ -69,10 +69,10 @@ model MovieToPlaylist {
 }
 
 model Favorite {
-  user    User  @relation(fields: [userId], references: [id])
-  movie   Movie @relation(fields: [movieId], references: [id])
-  userId  Int
-  movieId Int
+  user       User   @relation(fields: [userId], references: [id])
+  movie      Movie  @relation(fields: [movieId], references: [id])
+  userId     Int
+  movieId    Int
   movieTitle String
 
   @@unique([userId, movieId])
@@ -82,8 +82,9 @@ model WatchLaterMovie {
   id               Int              @id @default(autoincrement())
   watchLaterStatus WatchLaterStatus
 
-  movie   Movie @relation(fields: [movieId], references: [id])
-  movieId Int
+  movie      Movie  @relation(fields: [movieId], references: [id])
+  movieId    Int
+  movieTitle String
 
   User   User @relation(fields: [userId], references: [id])
   userId Int

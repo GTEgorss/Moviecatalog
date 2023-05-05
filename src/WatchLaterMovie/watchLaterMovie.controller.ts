@@ -8,7 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { WatchLaterMovieService } from './watchLaterMovie.service';
-import { WatchLaterMovieDto } from './dto/watchLaterMovie.dto';
+import { WatchLaterMovieUserIDDto } from './dto/watchlatermovie-userid.dto';
 import {
   ApiOperation,
   ApiParam,
@@ -18,6 +18,8 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 import { WatchLaterStatus } from '@prisma/client';
+import { WatchLaterMovieUsernameDto } from './dto/watchlatermovie-username.dto';
+import { WatchLaterMovieTitleDto } from './dto/watchlatermovie-movietitle.dto';
 
 @ApiTags('WatchLaterMovie')
 @Controller('watchlatermovie')
@@ -26,34 +28,54 @@ export class WatchLaterMovieController {
     private readonly watchLaterMovieService: WatchLaterMovieService,
   ) {}
 
-  @ApiOperation({ summary: 'create watch later movie object' })
+  @ApiOperation({ summary: 'create watch later movie object using user ID' })
   @ApiResponse({
     status: 201,
     description: 'Watch later movie created successfully',
     schema: {
-      $ref: getSchemaPath(WatchLaterMovieDto),
+      $ref: getSchemaPath(WatchLaterMovieUserIDDto),
     },
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiQuery({ name: 'status', enum: WatchLaterStatus })
-  @Post('create')
-  createWatchLaterMovie(
-    @Body() dto: WatchLaterMovieDto,
-  ): Promise<WatchLaterMovieDto> {
-    return this.watchLaterMovieService.createWatchLaterMovie(dto);
+  @Post('create/userid')
+  createWatchLaterMovieUserID(
+    @Body() dto: WatchLaterMovieUserIDDto,
+  ): Promise<WatchLaterMovieTitleDto> {
+    return this.watchLaterMovieService.createWatchLaterMovieUserID(dto);
+  }
+
+  @ApiOperation({ summary: 'create watch later movie object using username' })
+  @ApiResponse({
+    status: 201,
+    description: 'Watch later movie created successfully',
+    schema: {
+      $ref: getSchemaPath(WatchLaterMovieUsernameDto),
+    },
+  })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiQuery({ name: 'status', enum: WatchLaterStatus })
+  @Post('create/username')
+  createWatchLaterMovieUsername(
+    @Body() dto: WatchLaterMovieUsernameDto,
+  ): Promise<WatchLaterMovieTitleDto> {
+    return this.watchLaterMovieService.createWatchLaterMovieUsername(dto);
   }
 
   @ApiOperation({ summary: 'get watch later movie object by id' })
   @ApiResponse({
     status: 200,
     description: 'Watch later movie provided successfully',
-    type: WatchLaterMovieDto,
+    type: WatchLaterMovieTitleDto,
   })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @Get('id/:id')
-  getWatchLaterMovieById(@Param('id') id: number): Promise<WatchLaterMovieDto> {
+  getWatchLaterMovieById(
+    @Param('id') id: number,
+  ): Promise<WatchLaterMovieTitleDto> {
     return this.watchLaterMovieService.getWatchLaterMovieById(id);
   }
 
@@ -61,14 +83,14 @@ export class WatchLaterMovieController {
   @ApiResponse({
     status: 200,
     description: 'Watch later movie provided successfully',
-    type: WatchLaterMovieDto,
+    type: WatchLaterMovieTitleDto,
   })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @Get('userid/:id')
   getWatchLaterMovieByUserId(
     @Param('id') id: number,
-  ): Promise<WatchLaterMovieDto[]> {
+  ): Promise<WatchLaterMovieTitleDto[]> {
     return this.watchLaterMovieService.getWatchLaterMoviesByUserId(id);
   }
 
@@ -76,14 +98,14 @@ export class WatchLaterMovieController {
   @ApiResponse({
     status: 200,
     description: 'Watch later movie delete succesfully',
-    type: WatchLaterMovieDto,
+    type: WatchLaterMovieTitleDto,
   })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @Delete('id/:id')
   deleteWatchLaterMovieById(
     @Param('id') id: number,
-  ): Promise<WatchLaterMovieDto> {
+  ): Promise<WatchLaterMovieTitleDto> {
     return this.watchLaterMovieService.deleteWatchLaterMovieById(id);
   }
 
@@ -93,7 +115,7 @@ export class WatchLaterMovieController {
   @ApiResponse({
     status: 200,
     description: 'Watch later status changed successfully',
-    type: WatchLaterMovieDto,
+    type: WatchLaterMovieTitleDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
@@ -103,7 +125,7 @@ export class WatchLaterMovieController {
   changeWatchLaterStatus(
     @Param('watchlatermovieid') id: number,
     @Param('status') status: string,
-  ): Promise<WatchLaterMovieDto> {
+  ): Promise<WatchLaterMovieTitleDto> {
     return this.watchLaterMovieService.changeWatchLaterStatus(id, status);
   }
 }

@@ -24,6 +24,7 @@ export class AppService {
     return {
       loggedIn: loggedIn,
       username: username,
+      movieId: movie.id,
       title: movie.title,
       year: movie.year,
       country: movie.country,
@@ -71,6 +72,7 @@ export class AppService {
     return {
       loggedIn: loggedIn,
       username: username,
+      id: id,
       playlistTitle: playlistTitle,
       isEmpty: empty,
       movies: movies,

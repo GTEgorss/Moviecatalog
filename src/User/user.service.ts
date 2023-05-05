@@ -96,19 +96,39 @@ export class UserService {
     return user;
   }
 
-  async addFavorite(userId: number, movieId: number) {
+  async addFavoriteById(userId: number, movieId: number) {
     await userValidator.validateUserById(userId);
     await userValidator.validateMovie(movieId);
     await userValidator.validateFavoriteNotExistent(userId, movieId);
 
-    const favorite = await prisma.favorite.create({
-      data: { userId: userId, movieId: movieId },
-    });
+    const title = await Promise.resolve(
+      prisma.movie
+        .findUnique({
+          where: {
+            id: movieId,
+          },
+          select: {
+            title: true,
+          },
+        })
+        .then((value) => {
+          return value.title;
+        }),
+    );
 
+    const favorite = await prisma.favorite.create({
+      data: { userId: userId, movieId: movieId, movieTitle: title },
+    });
     return favorite;
   }
 
-  async getFavorites(userId: number) {
+  async addFavoriteByUsername(username: string, movieId: number) {
+    const id = await getUserIdByUsername(username);
+
+    return this.addFavoriteById(id, movieId);
+  }
+
+  async getFavoritesById(userId: number) {
     await userValidator.validateUserById(userId);
 
     const favorites = await prisma.favorite.findMany({
@@ -117,7 +137,13 @@ export class UserService {
     return favorites;
   }
 
-  async removeFavorite(userId: number, movieId: number) {
+  async getFavoritesByUsername(username: string) {
+    const id = await getUserIdByUsername(username);
+
+    return this.getFavoritesById(id);
+  }
+
+  async removeFavoriteById(userId: number, movieId: number) {
     await userValidator.validateFavoriteExistent(userId, movieId);
 
     const favorite = await prisma.favorite.delete({
@@ -132,23 +158,16 @@ export class UserService {
     return favorite;
   }
 
+  async removeFavoriteByUsername(username: string, movieId: number) {
+    const id = await getUserIdByUsername(username);
+
+    return this.removeFavoriteById(id, movieId);
+  }
+
   async getPlaylists(username: string) {
     await userValidator.validateUserByUsername(username);
 
-    const id = await Promise.resolve(
-      prisma.user
-        .findUnique({
-          where: {
-            username: username,
-          },
-          select: {
-            id: true,
-          },
-        })
-        .then((value) => {
-          return value.id;
-        }),
-    );
+    const id = await getUserIdByUsername(username);
 
     const playlists = await prisma.playlist.findMany({
       where: {
@@ -158,4 +177,23 @@ export class UserService {
 
     return playlists;
   }
+}
+
+async function getUserIdByUsername(username: string) {
+  const id = await Promise.resolve(
+    prisma.user
+      .findUnique({
+        where: {
+          username: username,
+        },
+        select: {
+          id: true,
+        },
+      })
+      .then((value) => {
+        return value.id;
+      }),
+  );
+
+  return id;
 }

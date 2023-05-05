@@ -17,6 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { FavoriteDto } from './dto/favorite.dto';
 import { PlaylistDto } from '../Playlist/dto/playlist.dto';
+import { FavoriteTitleDto } from './dto/favorite-title.dto';
 
 @ApiTags('User')
 @Controller('/user')
@@ -120,51 +121,98 @@ export class UserController {
     return this.userService.deleteUserById(id);
   }
 
-  @ApiOperation({ summary: 'add movie to favorites' })
+  @ApiOperation({ summary: 'add movie to favorites by user id' })
   @ApiResponse({
     status: 200,
     description: 'Movie added successfully',
-    schema: { $ref: getSchemaPath(FavoriteDto) },
+    schema: { $ref: getSchemaPath(FavoriteTitleDto) },
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
-  @Post('favorites/:userId/:movieId')
-  async addFavorite(
+  @Post('favorites/id/:userId/:movieId')
+  async addFavoriteByUserId(
     @Param('userId', ParseIntPipe) userId: number,
     @Param('movieId', ParseIntPipe) movieId: number,
   ): Promise<FavoriteDto> {
-    return this.userService.addFavorite(userId, movieId);
+    return this.userService.addFavoriteById(userId, movieId);
   }
 
-  @ApiOperation({ summary: 'get favorites' })
+  @ApiOperation({ summary: 'add movie to favorites by username' })
+  @ApiResponse({
+    status: 200,
+    description: 'Movie added successfully',
+    schema: { $ref: getSchemaPath(FavoriteTitleDto) },
+  })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @Post('favorites/username/:username/:movieId')
+  async addFavoriteByUsername(
+    @Param('username') username: string,
+    @Param('movieId', ParseIntPipe) movieId: number,
+  ): Promise<FavoriteDto> {
+    return this.userService.addFavoriteByUsername(username, movieId);
+  }
+
+  @ApiOperation({ summary: 'get favorites by id' })
   @ApiResponse({
     status: 200,
     description: 'Favorites provided successfully',
-    type: FavoriteDto,
+    type: FavoriteTitleDto,
   })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
-  @Get('favorites/:userId')
-  async getFavorites(
+  @Get('favorites/id/:userId')
+  async getFavoritesByUserId(
     @Param('userId', ParseIntPipe) userId: number,
-  ): Promise<FavoriteDto[]> {
-    return this.userService.getFavorites(userId);
+  ): Promise<FavoriteTitleDto[]> {
+    return this.userService.getFavoritesById(userId);
   }
 
-  @ApiOperation({ summary: 'remove movie to favorites' })
+  @ApiOperation({ summary: 'get favorites by username' })
+  @ApiResponse({
+    status: 200,
+    description: 'Favorites provided successfully',
+    type: FavoriteTitleDto,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  @Get('favorites/username/:username')
+  async getFavoritesByUsername(
+    @Param('username') username: string,
+  ): Promise<FavoriteTitleDto[]> {
+    return this.userService.getFavoritesByUsername(username);
+  }
+
+  @ApiOperation({ summary: 'remove movie from favorites by user id' })
   @ApiResponse({
     status: 200,
     description: 'Movie removed successfully',
-    type: FavoriteDto,
+    type: FavoriteTitleDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
-  @Delete('favorites/:userId/:movieId')
-  async removeFavorite(
+  @Delete('favorites/id/:userId/:movieId')
+  async removeFavoriteByUserId(
     @Param('userId', ParseIntPipe) userId: number,
     @Param('movieId', ParseIntPipe) movieId: number,
-  ): Promise<FavoriteDto> {
-    return this.userService.removeFavorite(userId, movieId);
+  ): Promise<FavoriteTitleDto> {
+    return this.userService.removeFavoriteById(userId, movieId);
+  }
+
+  @ApiOperation({ summary: 'remove movie from favorites by username' })
+  @ApiResponse({
+    status: 200,
+    description: 'Movie removed successfully',
+    type: FavoriteTitleDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @Delete('favorites/username/:username/:movieId')
+  async removeFavoriteByUsername(
+    @Param('username') username: string,
+    @Param('movieId', ParseIntPipe) movieId: number,
+  ): Promise<FavoriteTitleDto> {
+    return this.userService.removeFavoriteByUsername(username, movieId);
   }
 
   @ApiOperation({ summary: 'get playlists' })

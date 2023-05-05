@@ -21,3 +21,20 @@ function removeMovie(node, playlistId, movieId) {
     }
   });
 }
+
+function deletePlaylist(id) {
+  fetch(global_url + '/playlist/id/' + id, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  }).then((response) => {
+    if (response.ok) {
+      alert('Playlist was deleted successfully');
+      location.href = global_url;
+    } else {
+      response.json().then((data) => alert(data.message));
+    }
+  });
+}

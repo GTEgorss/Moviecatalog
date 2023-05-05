@@ -97,8 +97,6 @@
     border-radius: 15px;
 }
 
-
-
 .movie-filter--checkbox {
     /*appearance: none;*/
     /*-webkit-appearance: none;*/
@@ -134,8 +132,16 @@
     overflow: hidden;
 
     font-size: 20px;
+    text-decoration: none;
+    color: #FFFFFF;
+
     margin: 0;
     border-radius: 0;
+}
+
+.movie-link {
+    color: #FFFFFF;
+    text-decoration: none;
 }
 
 .spinner {

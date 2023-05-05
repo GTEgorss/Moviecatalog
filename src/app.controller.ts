@@ -37,15 +37,21 @@ export class AppController {
     return { loggedIn: loggedIn, username: username };
   }
 
-  @Get('/explore')
-  @Render('explore')
-  explore() {
-    return { loggedIn: loggedIn, username: username };
-  }
-
   @Get('/watchlater')
   @Render('watchlater')
   watchlater() {
+    return { loggedIn: loggedIn, username: username };
+  }
+
+  @Get('/search')
+  @Render('search')
+  search() {
+    return { loggedIn: loggedIn, username: username };
+  }
+
+  @Get('/explore')
+  @Render('explore')
+  explore() {
     return { loggedIn: loggedIn, username: username };
   }
 

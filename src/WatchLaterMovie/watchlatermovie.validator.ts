@@ -1,26 +1,35 @@
 import prisma from '../main';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { WatchLaterMovieDto } from './dto/watchLaterMovie.dto';
+import { WatchLaterMovieUserIDDto } from './dto/watchlatermovie-userid.dto';
+import { WatchLaterMovieUsernameDto } from './dto/watchlatermovie-username.dto';
 
 export class WatchLaterMovieValidator {
-  async validate(dto: WatchLaterMovieDto) {
-    await this.validateUser(dto.userId);
+  async validateBodyWithUserID(dto: WatchLaterMovieUserIDDto) {
+    await this.validateUserID(dto.userId);
     await this.validateMovie(dto.movieId);
+    await this.validateWatchLaterMovieAlreadyExists(dto.userId, dto.movieId);
+  }
 
+  async validateBodyWithUsername(dto: WatchLaterMovieUsernameDto) {
+    await this.validateUsername(dto.username);
+    await this.validateMovie(dto.movieId);
+  }
+
+  async validateWatchLaterMovieAlreadyExists(userId, movieId) {
     if (
       Number(
         await prisma.watchLaterMovie.count({
-          where: { userId: dto.userId, movieId: dto.movieId },
+          where: { userId: userId, movieId: movieId },
         }),
       ) != 0
     ) {
       throw new BadRequestException(
-        `Watch later movieId:${dto.movieId} userId:${dto.userId} already exists`,
+        `Watch later movieId:${movieId} userId:${userId} already exists`,
       );
     }
   }
 
-  async validateUser(userId: number) {
+  async validateUserID(userId: number) {
     if (
       Number(
         await prisma.user.count({
@@ -31,6 +40,20 @@ export class WatchLaterMovieValidator {
       ) == 0
     ) {
       throw new NotFoundException(`There is no user with id:${userId}`);
+    }
+  }
+
+  async validateUsername(username: string) {
+    if (
+      Number(
+        await prisma.user.count({
+          where: {
+            username: username,
+          },
+        }),
+      ) == 0
+    ) {
+      throw new NotFoundException(`There is no user with username:${username}`);
     }
   }
 

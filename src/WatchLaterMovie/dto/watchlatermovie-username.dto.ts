@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { WatchLaterStatus } from '@prisma/client';
 import { IsEnum, IsNumber } from 'class-validator';
 
-export class WatchLaterMovieDto {
+export class WatchLaterMovieUsernameDto {
   @ApiProperty({
     enum: ['NOT_WATCHED', 'WATCHED'],
     example: WatchLaterStatus.NOT_WATCHED,
@@ -13,6 +13,5 @@ export class WatchLaterMovieDto {
   @IsNumber()
   movieId: number;
   @ApiProperty()
-  @IsNumber()
-  userId: number;
+  username: string;
 }

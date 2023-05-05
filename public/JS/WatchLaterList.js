@@ -94,7 +94,7 @@ function addToListFromInput() {
  * @param watched
  * @function
  */
-function addToList(id, movie_name, watched) {
+function addToList(id, movie_id, movie_name, watched) {
   const movieList = document.getElementById('movieList').children[0];
 
   const movie = document.createElement('tr');
@@ -118,7 +118,10 @@ function addToList(id, movie_name, watched) {
   check_td.appendChild(check);
 
   const movie_name_element_td = document.createElement('td');
-  const movie_name_element = document.createElement('p');
+  const movie_name_box = document.createElement('div');
+  movie_name_box.setAttribute('class', 'layout-movie-link-box');
+  const movie_name_element = document.createElement('a');
+  movie_name_element.setAttribute('class', 'movie-link');
   movie_name_element.textContent = movie_name;
   if (watched) {
     movie_name_element.setAttribute(
@@ -128,7 +131,8 @@ function addToList(id, movie_name, watched) {
   } else {
     movie_name_element.setAttribute('class', 'movie-list--movie-name');
   }
-  movie_name_element_td.appendChild(movie_name_element);
+  movie_name_box.appendChild(movie_name_element);
+  movie_name_element_td.appendChild(movie_name_box);
 
   const remove_td = document.createElement('td');
   const remove = document.createElement('div');

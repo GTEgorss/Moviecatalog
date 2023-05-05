@@ -27,13 +27,15 @@ function displayWatchLaterMovies(data) {
     addToList(
       data[i].id,
       data[i].movieId,
+      data[i].movieTitle,
       data[i].watchLaterStatus === 'WATCHED',
     );
   }
 }
 
 function setWatchLaterStatus(id, node, watched) {
-  const movie_name_element = node.parentNode.nextSibling.childNodes[0];
+  const movie_name_element =
+    node.parentNode.nextSibling.childNodes[0].childNodes[0];
 
   if (watched) {
     fetch(global_url + '/watchlatermovie/changestatus/' + id + '/WATCHED', {

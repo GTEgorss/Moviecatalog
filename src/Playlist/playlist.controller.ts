@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { PlaylistService } from './playlist.service';
@@ -86,11 +87,11 @@ export class PlaylistController {
   @ApiResponse({
     status: 200,
     description: 'Movie added successfully',
-    schema: { $ref: getSchemaPath(MovieToPlaylistDto) },
+    type: MovieToPlaylistDto,
   })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
-  @Post('addmovie/:playlistid/:movieid')
+  @Patch('addmovie/:playlistid/:movieid')
   addMovieToPlaylist(
     @Param('playlistid', ParseIntPipe) playlistId: number,
     @Param('movieid', ParseIntPipe) movieId: number,
@@ -106,7 +107,7 @@ export class PlaylistController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not found' })
-  @Delete('removemovie/:playlistid/:movieid')
+  @Patch('removemovie/:playlistid/:movieid')
   removeMovieFromPlaylist(
     @Param('playlistid', ParseIntPipe) playlistId: number,
     @Param('movieid', ParseIntPipe) movieId: number,

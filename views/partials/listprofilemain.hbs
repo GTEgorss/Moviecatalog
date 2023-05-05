@@ -1,6 +1,7 @@
 <main>
 
-  <h1>{{ playlistTitle}}</h1>
+  <h1>Title: {{ playlistTitle}}</h1>
+  <h2>ID: {{id}}</h2>
 
   <hr>
 
@@ -9,11 +10,15 @@
   {{else}}
     {{#each movies}}
       <div class="layout-playlist-movie-block">
-        <p class="movie-list--movie-name">{{movieTitle}}</p>
+        <a class="movie-list--movie-name" href="../movieprofile/{{movieId}}">{{movieTitle}}</a>
 
         <button class="button button--remove" onclick="removeMovie(this, {{playlistId}}, {{movieId}})">Remove</button>
       </div>
     {{/each}}
   {{/if}}
+
+  <br>
+
+  <button class="button button--remove" onclick="deletePlaylist({{id}})">Delete this playlist</button>
 
 </main>
