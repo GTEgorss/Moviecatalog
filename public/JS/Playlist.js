@@ -1,6 +1,6 @@
 function removeMovie(node, playlistId, movieId) {
   fetch(global_url + '/playlist/removemovie/' + playlistId + '/' + movieId, {
-    method: 'DELETE',
+    method: 'PATCH',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
