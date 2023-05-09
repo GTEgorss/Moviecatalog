@@ -64,8 +64,6 @@ model Movie {
   watchLaterMovies  WatchLaterMovie[]
   favorites         Favorite[]
   MovieTimesOpened  MovieTimesOpened[]
-
-  @@index([title], type: Hash)
 }
 
 model MovieTimesOpened {

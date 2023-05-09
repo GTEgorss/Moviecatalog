@@ -2,6 +2,7 @@ window.addEventListener('load', function (event) {
   sendMsg();
 });
 
+const socket = io('http://localhost:2002');
 const socket = io('https://gtegorss-moviecatalog.onrender.com');
 
 socket.on('msgToClient', (message) => {
