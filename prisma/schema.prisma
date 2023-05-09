@@ -26,7 +26,7 @@ model User {
 }
 
 model UserIdToExternalId {
-  user       User   @relation(fields: [userId], references: [id])
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int
   externalId String
 
@@ -38,7 +38,7 @@ model Playlist {
   title   String
   private Boolean @default(false)
 
-  User   User @relation(fields: [userId], references: [id])
+  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
   moviesToPlaylists MovieToPlaylist[]
@@ -70,15 +70,15 @@ model Movie {
 
 model MovieTimesOpened {
   movieId    Int
-  movie      Movie @relation(fields: [movieId], references: [id])
+  movie      Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
   timeOpened Int
 
   @@id([movieId])
 }
 
 model MovieToPlaylist {
-  playlist   Playlist @relation(fields: [playlistId], references: [id])
-  movie      Movie    @relation(fields: [movieId], references: [id])
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  movie      Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
   playlistId Int
   movieId    Int
   movieTitle String
@@ -87,8 +87,8 @@ model MovieToPlaylist {
 }
 
 model Favorite {
-  user       User   @relation(fields: [userId], references: [id])
-  movie      Movie  @relation(fields: [movieId], references: [id])
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie      Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
   userId     Int
   movieId    Int
   movieTitle String
@@ -100,11 +100,11 @@ model WatchLaterMovie {
   id               Int              @id @default(autoincrement())
   watchLaterStatus WatchLaterStatus
 
-  movie      Movie  @relation(fields: [movieId], references: [id])
+  movie      Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
   movieId    Int
   movieTitle String
 
-  User   User @relation(fields: [userId], references: [id])
+  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 }
 
@@ -114,10 +114,10 @@ model Review {
   body   String
   date   DateTime @default(now())
 
-  User   User @relation(fields: [userId], references: [id])
+  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
-  movie   Movie @relation(fields: [movieId], references: [id])
+  movie   Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
   movieId Int
 }
 

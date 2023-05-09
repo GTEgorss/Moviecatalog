@@ -8,6 +8,7 @@ import { ReviewModule } from './Review/review.module';
 import { PlaylistModule } from './Playlist/playlist.module';
 import { WatchLaterMovieModule } from './WatchLaterMovie/watchLaterMovie.module';
 import { AuthModule } from './auth/auth.module';
+import { AppGateway } from './gateway/app.gateway';
 import * as process from 'process';
 
 @Module({
@@ -31,6 +32,6 @@ import * as process from 'process';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppGateway],
 })
 export class AppModule {}

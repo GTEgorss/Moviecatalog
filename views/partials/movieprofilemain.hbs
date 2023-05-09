@@ -52,21 +52,25 @@
     </div>
   </div>
 
+  <div id="movie-id" hidden>{{movieId}}</div>
+
   {{#if loggedIn}}
-  <div class="layout-movie-add-buttons">
-    <button class="button button--add" onclick="addMovieToFavorites({{movieId}})">Add to favorites</button>
+    <div class="layout-movie-add-buttons">
+      <button class="button button--add" onclick="addMovieToFavorites({{movieId}})">Add to favorites</button>
 
-    <button class="button button--add" onclick="addMovieToWatchLater({{movieId}})">Add to watch later</button>
-  </div>
+      <button class="button button--add" onclick="addMovieToWatchLater({{movieId}})">Add to watch later</button>
+    </div>
 
-  <div class="layout-text-input">
-    <label for="playlistId" class="text-input--subtitle">Playlist ID:</label>
-    <input type="text" id="playlistId" class="text-input">
-    <br>
-    <div class="button button--submit" onclick="addMovieToPlaylist({{movieId}})">Add to playlist</div>
-  </div>
+    <div class="layout-text-input">
+      <label for="playlistId" class="text-input--subtitle">Playlist ID:</label>
+      <input type="text" id="playlistId" class="text-input">
+      <br>
+      <div class="button button--submit" onclick="addMovieToPlaylist({{movieId}})">Add to playlist</div>
+    </div>
   {{/if}}
 
-  <div>Times opened: <span id="times-opened">0</span></div>
+  <br>
+
+  <div>Times opened: <span id="times-opened"></span></div>
 
 </main>
