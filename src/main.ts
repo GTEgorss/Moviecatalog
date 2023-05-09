@@ -40,6 +40,7 @@ async function bootstrap() {
     .addTag('Review')
     .addTag('WatchLaterMovie')
     .addTag('Auth')
+    .addCookieAuth('sAccessToken', { type: 'apiKey' }, 'JWT')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

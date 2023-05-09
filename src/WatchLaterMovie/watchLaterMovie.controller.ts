@@ -10,6 +10,7 @@ import {
 import { WatchLaterMovieService } from './watchLaterMovie.service';
 import { WatchLaterMovieUserIDDto } from './dto/watchlatermovie-userid.dto';
 import {
+  ApiCookieAuth,
   ApiOperation,
   ApiParam,
   ApiQuery,
@@ -22,6 +23,7 @@ import { WatchLaterMovieUsernameDto } from './dto/watchlatermovie-username.dto';
 import { WatchLaterMovieTitleDto } from './dto/watchlatermovie-movietitle.dto';
 
 @ApiTags('WatchLaterMovie')
+@ApiCookieAuth('JWT')
 @Controller('watchlatermovie')
 export class WatchLaterMovieController {
   constructor(

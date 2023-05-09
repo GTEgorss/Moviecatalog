@@ -10,6 +10,7 @@ import {
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import {
+  ApiCookieAuth,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -20,6 +21,7 @@ import { PlaylistDto } from '../Playlist/dto/playlist.dto';
 import { FavoriteTitleDto } from './dto/favorite-title.dto';
 
 @ApiTags('User')
+@ApiCookieAuth('JWT')
 @Controller('/user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
