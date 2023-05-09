@@ -63,8 +63,17 @@ model Movie {
   moviesToPlaylists MovieToPlaylist[]
   watchLaterMovies  WatchLaterMovie[]
   favorites         Favorite[]
+  MovieTimesOpened  MovieTimesOpened[]
 
   @@index([title], type: Hash)
+}
+
+model MovieTimesOpened {
+  movieId    Int
+  movie      Movie @relation(fields: [movieId], references: [id])
+  timeOpened Int
+
+  @@id([movieId])
 }
 
 model MovieToPlaylist {
