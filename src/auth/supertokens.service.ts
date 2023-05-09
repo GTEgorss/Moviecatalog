@@ -5,6 +5,10 @@ import EmailPassword from 'supertokens-node/recipe/emailpassword';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 
 import { ConfigInjectionToken, AuthModuleConfig } from './config.interface';
+import { UserValidator } from '../User/user.validator';
+import { UserDto } from '../User/dto/user.dto';
+import { UserService } from '../User/user.service';
+import prisma from '../main';
 
 @Injectable()
 export class SupertokensService {
@@ -36,12 +40,37 @@ export class SupertokensService {
                     throw Error('Should never come here');
                   }
 
+                  const validator = new UserValidator();
+                  const userDto = new UserDto(
+                    input.formFields.at(2).value,
+                    input.formFields.at(1).value,
+                    input.formFields.at(3).value,
+                    input.formFields.at(0).value,
+                  );
+
+                  try {
+                    await validator.validate(userDto);
+                  } catch (e) {
+                    return { status: 'GENERAL_ERROR', message: e.message };
+                  }
+
                   const response = await originalImplementation.signUpPOST(
                     input,
                   );
 
                   if (response.status === 'OK') {
-                    const formFields = input.formFields;
+                    const { id, email } = response.user;
+
+                    const createdUser = await new UserService().createUser(
+                      userDto,
+                    );
+
+                    await prisma.userIdToExternalId.create({
+                      data: {
+                        userId: createdUser.id,
+                        externalId: id,
+                      },
+                    });
                   }
                   return response;
                 },

@@ -52,6 +52,7 @@
     </div>
   </div>
 
+  {{#if loggedIn}}
   <div class="layout-movie-add-buttons">
     <button class="button button--add" onclick="addMovieToFavorites({{movieId}})">Add to favorites</button>
 
@@ -64,5 +65,6 @@
     <br>
     <div class="button button--submit" onclick="addMovieToPlaylist({{movieId}})">Add to playlist</div>
   </div>
+  {{/if}}
 
 </main>

@@ -10,6 +10,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './exception.filter';
 import supertokens from 'supertokens-node';
 import { SupertokensExceptionFilter } from './auth/auth.filter';
+import * as cookieParser from 'cookie-parser';
+import { middleware } from 'supertokens-node/framework/express';
 
 const prisma = new PrismaClient();
 export default prisma;
@@ -25,6 +27,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalFilters(new SupertokensExceptionFilter());
+  app.use(cookieParser());
+  app.use(middleware());
 
   const config = new DocumentBuilder()
     .setTitle('moviecatalog')
@@ -35,6 +39,7 @@ async function bootstrap() {
     .addTag('Playlist')
     .addTag('Review')
     .addTag('WatchLaterMovie')
+    .addTag('Auth')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

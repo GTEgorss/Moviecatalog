@@ -11,6 +11,7 @@
       <a class="button button--title" href="#">eng/rus</a>
       {{#if loggedIn}}
         <a class="button button--title" href="#">logged in as {{username}}</a>
+        <button class="button button--title" onclick="logOut()">log out</button>
       {{else}}
         <a id="login" class="button button--title" href="login">log in</a>
         <a id="signup" class="button button--title" href="signup">sign up</a>

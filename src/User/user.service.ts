@@ -8,7 +8,7 @@ const userValidator = new UserValidator();
 
 @Injectable()
 export class UserService {
-  async createUser(dto: UserDto): Promise<UserDto> {
+  async createUser(dto: UserDto) {
     await userValidator.validate(dto);
 
     const user = await prisma.user.create({

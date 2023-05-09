@@ -40,28 +40,11 @@ async function signUpUser() {
             window.alert(formField.error);
           } else if (formField.id === 'password') {
             window.alert(formField.error);
+          } else {
+            window.alert(formField.error);
           }
         });
       } else {
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password,
-            fullname: fullname,
-            email: email,
-          }),
-        }).then((response) => {
-          if (response.ok) {
-          } else {
-            response.json().then((data) => alert(data.message));
-          }
-        });
-
         alert('You signed up successfully! :D');
         window.location.href = '/';
       }

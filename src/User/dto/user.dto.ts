@@ -3,6 +3,13 @@ import { Role } from '@prisma/client';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 
 export class UserDto {
+  constructor(username, password, fullname, email) {
+    this.username = username;
+    this.password = password;
+    this.fullName = fullname;
+    this.email = email;
+  }
+
   @ApiProperty({ example: 'GTEgorss' })
   @IsNotEmpty()
   username: string;

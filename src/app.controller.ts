@@ -4,6 +4,7 @@ import {
   Param,
   ParseIntPipe,
   Render,
+  Res,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -13,9 +14,10 @@ import { ApiExcludeController } from '@nestjs/swagger';
 import { AuthGuard } from './auth/auth.guard';
 import { Session } from './auth/session.decorator';
 import { SessionContainer } from 'supertokens-node/recipe/session';
+import { Response } from 'express';
 
-const loggedIn = true;
-const username = 'GTEgorss';
+let loggedIn = false;
+let username = null;
 
 @ApiExcludeController()
 @Controller()
@@ -24,84 +26,228 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('/')
+  @UseGuards(new AuthGuard({ sessionRequired: false }))
   @Render('index')
-  index() {
+  async index(@Res() response: Response, @Session() session: SessionContainer) {
+    if (session !== undefined) {
+      username = await this.appService.getUsernameByExternalId(
+        session.getUserId(),
+      );
+      loggedIn = true;
+
+      response.cookie('username', username);
+    } else {
+      loggedIn = false;
+      username = null;
+    }
+
     return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/lists')
+  @UseGuards(new AuthGuard())
   @Render('lists')
-  lists() {
+  async lists(@Res() response: Response, @Session() session: SessionContainer) {
+    username = await this.appService.getUsernameByExternalId(
+      session.getUserId(),
+    );
+    loggedIn = true;
+
+    response.cookie('username', username);
+
     return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/favorites')
+  @UseGuards(new AuthGuard())
   @Render('favorites')
-  favorites() {
+  async favorites(
+    @Res() response: Response,
+    @Session() session: SessionContainer,
+  ) {
+    username = await this.appService.getUsernameByExternalId(
+      session.getUserId(),
+    );
+    loggedIn = true;
+
+    response.cookie('username', username);
+
     return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/watchlater')
+  @UseGuards(new AuthGuard())
   @Render('watchlater')
-  watchlater() {
+  async watchlater(
+    @Res() response: Response,
+    @Session() session: SessionContainer,
+  ) {
+    username = await this.appService.getUsernameByExternalId(
+      session.getUserId(),
+    );
+    loggedIn = true;
+
+    response.cookie('username', username);
+
     return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/search')
+  @UseGuards(new AuthGuard({ sessionRequired: false }))
   @Render('search')
-  search() {
+  async search(
+    @Res() response: Response,
+    @Session() session: SessionContainer,
+  ) {
+    if (session !== undefined) {
+      username = await this.appService.getUsernameByExternalId(
+        session.getUserId(),
+      );
+      loggedIn = true;
+
+      response.cookie('username', username);
+    } else {
+      loggedIn = false;
+      username = null;
+    }
+
     return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/explore')
+  @UseGuards(new AuthGuard({ sessionRequired: false }))
   @Render('explore')
-  explore() {
+  async explore(
+    @Res() response: Response,
+    @Session() session: SessionContainer,
+  ) {
+    if (session !== undefined) {
+      username = await this.appService.getUsernameByExternalId(
+        session.getUserId(),
+      );
+      loggedIn = true;
+
+      response.cookie('username', username);
+    } else {
+      loggedIn = false;
+      username = null;
+    }
+
     return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/style')
+  @UseGuards(new AuthGuard({ sessionRequired: false }))
   @Render('style')
-  style() {
+  async style(@Res() response: Response, @Session() session: SessionContainer) {
+    if (session !== undefined) {
+      username = await this.appService.getUsernameByExternalId(
+        session.getUserId(),
+      );
+      loggedIn = true;
+
+      response.cookie('username', username);
+    }
+
     return { loggedIn: false, username: username };
   }
 
   @Get('/signup')
+  @UseGuards(new AuthGuard({ sessionRequired: false }))
   @Render('signup')
-  signup() {
+  async signup(
+    @Res() response: Response,
+    @Session() session: SessionContainer,
+  ) {
+    if (session !== undefined) {
+      username = await this.appService.getUsernameByExternalId(
+        session.getUserId(),
+      );
+      loggedIn = true;
+
+      response.cookie('username', username);
+    } else {
+      loggedIn = false;
+      username = null;
+    }
+
     return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/login')
+  @UseGuards(new AuthGuard({ sessionRequired: false }))
   @Render('login')
-  login() {
+  async login(@Res() response: Response, @Session() session: SessionContainer) {
+    if (session !== undefined) {
+      username = await this.appService.getUsernameByExternalId(
+        session.getUserId(),
+      );
+      loggedIn = true;
+
+      response.cookie('username', username);
+    } else {
+      loggedIn = false;
+      username = null;
+    }
+
     return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/createlist')
+  @UseGuards(new AuthGuard())
   @Render('createlist')
-  createlist() {
+  async createlist(
+    @Res() response: Response,
+    @Session() session: SessionContainer,
+  ) {
+    username = await this.appService.getUsernameByExternalId(
+      session.getUserId(),
+    );
+    loggedIn = true;
+
+    response.cookie('username', username);
+
     return { loggedIn: loggedIn, username: username };
   }
 
   @Get('/movieprofile/:id')
+  @UseGuards(new AuthGuard({ sessionRequired: false }))
   @Render('movieprofile')
-  movie(@Param('id', ParseIntPipe) id: number) {
+  async movie(
+    @Res() response: Response,
+    @Session() session: SessionContainer,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    if (session !== undefined) {
+      username = await this.appService.getUsernameByExternalId(
+        session.getUserId(),
+      );
+      loggedIn = true;
+
+      response.cookie('username', username);
+    } else {
+      loggedIn = false;
+      username = null;
+    }
+
     return this.appService.showMovie(loggedIn, username, id);
   }
 
   @Get('/playlist/:id')
-  @Render('listprofile')
-  list(@Param('id', ParseIntPipe) id: number) {
-    return this.appService.showPlaylist(loggedIn, username, id);
-  }
-
-  @Get('/test')
   @UseGuards(new AuthGuard())
-  test(@Session() session: SessionContainer) {
-    if (session !== undefined) {
-      const userId = session.getUserId();
-    } else {
-    }
-    return 'magic';
+  @Render('listprofile')
+  async list(
+    @Res() response: Response,
+    @Session() session: SessionContainer,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    username = await this.appService.getUsernameByExternalId(
+      session.getUserId(),
+    );
+    loggedIn = true;
+
+    response.cookie('username', username);
+
+    return this.appService.showPlaylist(loggedIn, username, id);
   }
 }

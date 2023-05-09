@@ -81,9 +81,6 @@ function addToListFromInput() {
       addToList(movie_name, false);
 
       movies.push(new Movie(movie_name));
-
-      // SaveMoviesLocalStorage();
-      // console.log(localStorage.getItem('movies'));
     }
   }
 }
@@ -172,9 +169,6 @@ function setWatched(node, watched) {
       (e) => e.name === movie_name_element.textContent,
     ).watched = false;
   }
-
-  // SaveMoviesLocalStorage();
-  // console.log(localStorage.getItem('movies'));
 }
 
 /**
@@ -190,9 +184,6 @@ function removeFromList(node) {
   movies = movies.filter((e) => e.name !== movie_name);
 
   --movieCount;
-
-  // SaveMoviesLocalStorage();
-  // console.log(localStorage.getItem('movies'));
 }
 
 /**
@@ -231,16 +222,6 @@ function initializeListFromLocalStorage() {
  */
 window.onload = () => {
   /**
-   * Adds event listener to Enter button
-   */
-  const input = document.getElementById('movieName');
-  input.addEventListener('keyup', function (event) {
-    if (event.key === 'Enter') {
-      addToListFromInput();
-    }
-  });
-
-  /**
    * Adds event listener to filter checkboxes
    */
   const filters = document.querySelectorAll('input[name="movieFilter"]');
@@ -249,21 +230,12 @@ window.onload = () => {
       if (event.currentTarget.checked) {
         switch (event.currentTarget.id) {
           case 'all':
-            // filter = (watched) => {
-            //   return true;
-            // };
             addFilter('all');
             break;
           case 'watched':
-            // filter = (watched) => {
-            //   return watched;
-            // };
             addFilter('watched');
             break;
           case 'notWatched':
-            // filter = (watched) => {
-            //   return !watched;
-            // };
             addFilter('not_watched');
             break;
           default:

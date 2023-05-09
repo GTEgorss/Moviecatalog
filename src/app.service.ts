@@ -8,6 +8,30 @@ export class AppService {
   movieValidator = new MovieValidator();
   playlistValidator = new PlaylistValidator();
 
+  async getUsernameByExternalId(externalId: string) {
+    try {
+      const userId = await prisma.userIdToExternalId.findFirst({
+        where: { externalId: externalId },
+        select: {
+          userId: true,
+        },
+      });
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: Number(userId.userId),
+        },
+        select: {
+          username: true,
+        },
+      });
+
+      return user.username;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   async showMovie(loggedIn: boolean, username: string, id: number) {
     await this.movieValidator.validateMovie(id);
 
